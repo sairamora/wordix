@@ -28,8 +28,8 @@ function palabraCinco () {
     do {
         echo "Ingrese una palabra de 5 letras \n";
         $cincoLetras = trim(fgets(STDIN));
-        if (strlen($cincoLetras!= 5)) {
-            echo "La palabra no tiene 5 letras. Ingrese otra.";
+        if (strlen($cincoLetras)!=5) {
+            echo "La palabra no tiene 5 letras.";
         }
     } while (strlen($cincoLetras)!=5);
     return $cincoLetras;
@@ -61,4 +61,5 @@ do {
             break;
     }
 
-} while ($opcion != 9);}
+} while ($opcion != 9);
+}
