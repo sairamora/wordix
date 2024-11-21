@@ -22,7 +22,7 @@ function cargarColeccionPalabras() {
         "MUJER", "QUESO", "FUEGO", "CASAS", "RASGO",
         "GATOS", "GOTAS", "HUEVO", "TINTO", "NAVES",
         "VERDE", "MELON", "YUYOS", "PIANO", "PISOS",
-        "PASTO", "MOSCA", "MISMA", "-----", "-----",
+        "PASTO", "MOSCA", "MISMA", "TAZAS", "CORAL",
     ];
     return ($coleccionPalabras);
 }
@@ -40,14 +40,16 @@ function cargarPartidas () {
     $ejPartidas[9] = ["palabraWordix" => "QUESO", "jugador" => "majo", "intentos" => 0, "puntaje" => 0];
     return ($ejPartidas);
 }
+
 /**
  * Muestra el menu de opciones y corrobora que la opcion elegida sea valida. Retorna el numero de la opcion elegida.
- * @return int|string
+ * @return int
  */
- function seleccionarOpcion () {
-    do {
+function seleccionarOpcion () {
+    //int $opcion, $minimo, $maximo
+    $minimo = 1;
+    $maximo = 8;
         echo "Menu WORDIX \n";
-        echo "Seleccione una opcion del menu: \n";
         echo "1) Jugar al wordix con una palabra elegida. \n";
         echo "2) Jugar al wordix con una palabra aleatoria. \n";
         echo "3) Mostrar una partida. \n";
@@ -56,19 +58,15 @@ function cargarPartidas () {
         echo "6) Mostrar listado de partidas ordenadas por jugador y por palabra. \n";
         echo "7) Agregar una palabra de 5 letras a Wordix. \n";
         echo "8) Salir. \n";
-        $opcion = trim(fgets(STDIN));
-        if (!($opcion>0 && $opcion<9)) {
-            echo "La opcion no es valida. Ingrese otra opcion. \n";
-        }
-    } while (!($opcion>0 && $opcion<9));
+        $opcion = solicitarNumeroEntre($minimo, $maximo);
     return ($opcion);
 }
+
 /**
  * Solicita y corrobora una palabra de 5 letras. Retorna la palabra valida.
  * @return string
  */
-function leerPalabra5Letras()
-{
+function leerPalabra5Letras() {
     //string $palabra
     echo "Ingrese una palabra de 5 letras: ";
     $palabra = trim(fgets(STDIN));
@@ -122,25 +120,4 @@ function solicitarNumeroEntre($min, $max)
 //print_r($partida);
 //imprimirResultado($partida);
 
-
-/**do {
-    seleccionarOpcion();            //llamo mi modulo
-    //$opcion = ...;
-    
-    switch ($opcion) {
-        case 1: 
-            //completar qué secuencia de pasos ejecutar si el usuario elige la opción 1
-
-            break;
-        case 2: 
-            //completar qué secuencia de pasos ejecutar si el usuario elige la opción 2
-
-            break;
-        case 3: 
-            //completar qué secuencia de pasos ejecutar si el usuario elige la opción 3
-
-            break;
-        
-            //...
-    }
-} while ($opcion != X);
+?>
