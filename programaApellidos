@@ -19,20 +19,32 @@ include_once("wordix.php");
  * Obtiene una colección de palabras
  * @return array
  */
-function cargarColeccionPalabras()
-{
+function cargarColeccionPalabras() {
     $coleccionPalabras = [
         "MUJER", "QUESO", "FUEGO", "CASAS", "RASGO",
         "GATOS", "GOTAS", "HUEVO", "TINTO", "NAVES",
-        "VERDE", "MELON", "YUYOS", "PIANO", "PISOS"
-        /* Agregar 5 palabras más */
+        "VERDE", "MELON", "YUYOS", "PIANO", "PISOS",
+        "PASTO", "MOSCA", "MISMA", "-----", "-----",
     ];
-
     return ($coleccionPalabras);
+}
+function cargarPartidas () {
+    $ejPartidas = [];
+    $ejPartidas[0] = ["palabraWordix" => "QUESO", "jugador" => "majo", "intentos" => 0, "puntaje" => 0];
+    $ejPartidas[1] = ["palabraWordix" => "CASAS", "jugador" => "rudolf", "intentos" => 3, "puntaje" => 14];
+    $ejPartidas[2] = ["palabraWordix" => "QUESO", "jugador" => "pink2000", "intentos" => 6, "puntaje" => 10];
+    $ejPartidas[3] = ["palabraWordix" => "QUESO", "jugador" => "majo", "intentos" => 0, "puntaje" => 0];
+    $ejPartidas[4] = ["palabraWordix" => "QUESO", "jugador" => "majo", "intentos" => 0, "puntaje" => 0];
+    $ejPartidas[5] = ["palabraWordix" => "QUESO", "jugador" => "majo", "intentos" => 0, "puntaje" => 0];
+    $ejPartidas[6] = ["palabraWordix" => "QUESO", "jugador" => "majo", "intentos" => 0, "puntaje" => 0];
+    $ejPartidas[7] = ["palabraWordix" => "QUESO", "jugador" => "majo", "intentos" => 0, "puntaje" => 0];
+    $ejPartidas[8] = ["palabraWordix" => "QUESO", "jugador" => "majo", "intentos" => 0, "puntaje" => 0];
+    $ejPartidas[9] = ["palabraWordix" => "QUESO", "jugador" => "majo", "intentos" => 0, "puntaje" => 0];
+    return $ejPartidas;
 }
 /**
  * Muestra el menu de opciones y corrobora que la opcion elegida sea valida. Retorna el numero de la opcion elegida.
- * @return int
+ * @return int|string
  */
 function seleccionarOpcion () {
     do {
@@ -51,7 +63,7 @@ function seleccionarOpcion () {
             echo "La opcion no es valida. Ingrese otra opcion. \n";
         }
     } while (!($opcion>0 && $opcion<9));                //entra en bucle y no sale hasta que se ingrese una opcion valida
-    return $opcion;
+    return ($opcion);
 }
 /**
  * Solicita y corrobora una palabra de 5 letras. Retorna la palabra valida.
@@ -68,7 +80,7 @@ function leerPalabra5Letras()
         echo "Debe ingresar una palabra de 5 letras:";
         $palabra = strtoupper(trim(fgets(STDIN)));
     }
-    return $palabra;
+    return ($palabra);
 }
 /**
  * Solicita un numero y corrobora que se encuentre entre un rango de valores. Retorna el numero valido.
@@ -92,7 +104,7 @@ function solicitarNumeroEntre($min, $max)
             $numero  = $numero * 1;
         }
     }
-    return $numero;
+    return ($numero);
 }
 
 /* ****COMPLETAR***** */
@@ -114,26 +126,6 @@ function solicitarNumeroEntre($min, $max)
 //$partida = jugarWordix("MELON", strtolower("MaJo"));
 //print_r($partida);
 //imprimirResultado($partida);
-
-function seleccionarOpcion () {
-    do {
-        echo "Menu WORDIX \n";
-        echo "Seleccione una opcion del menu: \n";
-        echo "1) Jugar al wordix con una palabra elegida. \n";
-        echo "2) Jugar al wordix con una palabra aleatoria. \n";
-        echo "3) Mostrar una partida. \n";
-        echo "4) Mostrar la primer partida ganadora. \n";
-        echo "5) Mostrar resumen de Jugador. \n";
-        echo "6) Mostrar listado de partidas ordenadas por jugador y por palabra. \n";
-        echo "7) Agregar una palabra de 5 letras a Wordix. \n";
-        echo "8) Salir. \n";
-        $opcion = trim(fgets(STDIN));
-        if (!($opcion>0 && $opcion<9)) {
-            echo "La opcion no es valida. Ingrese otra opcion. \n";
-        }
-    } while (!($opcion>0 && $opcion<9));
-    return $opcion;
-}
 
 
 /**do {
