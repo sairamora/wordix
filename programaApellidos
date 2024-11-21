@@ -116,4 +116,27 @@ function solicitarNumeroEntre($min, $max)
 //print_r($partida);
 //imprimirResultado($partida);
 
+do {
+seleccionarOpcion();            //llamo mi modulo
+    //$opcion = ...;
+    
+    switch ($opcion) {
+        case 1: 
+            //completar qué secuencia de pasos ejecutar si el usuario elige la opción 1
+            //jugarwordix
+
+            break;
+        case 2: 
+            //completar qué secuencia de pasos ejecutar si el usuario elige la opción 2
+
+            break;
+        case 3: 
+            //completar qué secuencia de pasos ejecutar si el usuario elige la opción 3
+
+            break;
+        
+            //...
+    }
+} while ($opcion != X);
+
 ?>
