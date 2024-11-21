@@ -8,8 +8,10 @@ Facultad de Informatica
 Universidad Nacional del Comahue
 
 # Profesores
+Dr. Luis Reynoso
+Lic. Cristian Torres
 
-# Numero de grupo
+# Numero de grupo : 2
 
 # Integrantes del grupo
 **Saira Mora** Legajo FAI-5294 - Mail: saira.mora@est.fi.uncoma.edu.ar - Github: sairamora
