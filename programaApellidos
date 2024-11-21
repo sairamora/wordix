@@ -30,6 +30,70 @@ function cargarColeccionPalabras()
 
     return ($coleccionPalabras);
 }
+/**
+ * Muestra el menu de opciones y corrobora que la opcion elegida sea valida. Retorna el numero de la opcion elegida.
+ * @return int
+ */
+function seleccionarOpcion () {
+    do {
+        echo "Menu WORDIX \n";
+        echo "Seleccione una opcion del menu: \n";
+        echo "1) Jugar al wordix con una palabra elegida. \n";
+        echo "2) Jugar al wordix con una palabra aleatoria. \n";
+        echo "3) Mostrar una partida. \n";
+        echo "4) Mostrar la primer partida ganadora. \n";
+        echo "5) Mostrar resumen de Jugador. \n";
+        echo "6) Mostrar listado de partidas ordenadas por jugador y por palabra. \n";
+        echo "7) Agregar una palabra de 5 letras a Wordix. \n";
+        echo "8) Salir. \n";
+        $opcion = trim(fgets(STDIN));
+        if (!($opcion>0 && $opcion<9)) {                //si no es una opcion valida solicita otra
+            echo "La opcion no es valida. Ingrese otra opcion. \n";
+        }
+    } while (!($opcion>0 && $opcion<9));                //entra en bucle y no sale hasta que se ingrese una opcion valida
+    return $opcion;
+}
+/**
+ * Solicita y corrobora una palabra de 5 letras. Retorna la palabra valida.
+ * @return string
+ */
+function leerPalabra5Letras()
+{
+    //string $palabra
+    echo "Ingrese una palabra de 5 letras: ";
+    $palabra = trim(fgets(STDIN));
+    $palabra  = strtoupper($palabra);
+
+    while ((strlen($palabra) != 5) || !esPalabra($palabra)) {
+        echo "Debe ingresar una palabra de 5 letras:";
+        $palabra = strtoupper(trim(fgets(STDIN)));
+    }
+    return $palabra;
+}
+/**
+ * Solicita un numero y corrobora que se encuentre entre un rango de valores. Retorna el numero valido.
+ * @param mixed $min
+ * @param mixed $max
+ * @return int|string
+ */
+function solicitarNumeroEntre($min, $max)
+{
+    //int $numero
+
+    $numero = trim(fgets(STDIN));
+
+    if (is_numeric($numero)) { //determina si un string es un número. puede ser float como entero.
+        $numero  = $numero * 1; //con esta operación convierto el string en número.
+    }
+    while (!(is_numeric($numero) && (($numero == (int)$numero) && ($numero >= $min && $numero <= $max)))) {
+        echo "Debe ingresar un número entre " . $min . " y " . $max . ": ";
+        $numero = trim(fgets(STDIN));
+        if (is_numeric($numero)) {
+            $numero  = $numero * 1;
+        }
+    }
+    return $numero;
+}
 
 /* ****COMPLETAR***** */
 
