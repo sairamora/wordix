@@ -32,13 +32,13 @@ function cargarPartidas () {    //CAMBIAR segun la modificacion del punto 7
     $ejPartidas[0] = ["palabraWordix" => "QUESO", "jugador" => "majo", "intentos" => 0, "puntaje" => 0];
     $ejPartidas[1] = ["palabraWordix" => "CASAS", "jugador" => "rudolf", "intentos" => 3, "puntaje" => 14];
     $ejPartidas[2] = ["palabraWordix" => "QUESO", "jugador" => "pink2000", "intentos" => 6, "puntaje" => 10];
-    $ejPartidas[3] = ["palabraWordix" => "HUEVO", "jugador" => "majo", "intentos" => 4, "puntaje" => 11];
-    $ejPartidas[4] = ["palabraWordix" => "CORAL", "jugador" => "lyra", "intentos" => 1, "puntaje" => 15];
-    $ejPartidas[5] = ["palabraWordix" => "MOSCA", "jugador" => "yaki", "intentos" => 1, "puntaje" => 18];
+    $ejPartidas[3] = ["palabraWordix" => "HUEVO", "jugador" => "majo", "intentos" => 4, "puntaje" => 11];                   
+    $ejPartidas[4] = ["palabraWordix" => "PIANO", "jugador" => "lyra", "intentos" => 1, "puntaje" => 15]; 
+    $ejPartidas[5] = ["palabraWordix" => "NAVES", "jugador" => "yaki", "intentos" => 1, "puntaje" => 17]; 
     $ejPartidas[6] = ["palabraWordix" => "YUYOS", "jugador" => "pink2000", "intentos" => 5, "puntaje" => 13];
-    $ejPartidas[7] = ["palabraWordix" => "TINTO", "jugador" => "max", "intentos" => 2, "puntaje" => 16];
-    $ejPartidas[8] = ["palabraWordix" => "VERDE", "jugador" => "body", "intentos" => 3, "puntaje" => 14];
-    $ejPartidas[9] = ["palabraWordix" => "MELON", "jugador" => "zac", "intentos" => 6, "puntaje" => 13];
+    $ejPartidas[7] = ["palabraWordix" => "TINTO", "jugador" => "max", "intentos" => 2, "puntaje" => 16]; 
+    $ejPartidas[8] = ["palabraWordix" => "VERDE", "jugador" => "body", "intentos" => 3, "puntaje" => 14];   
+    $ejPartidas[9] = ["palabraWordix" => "MELON", "jugador" => "zac", "intentos" => 6, "puntaje" => 10];
     return ($ejPartidas);
 }
 //PUNTO 3 (E3)
