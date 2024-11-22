@@ -83,12 +83,18 @@ function mostrarPartida ($numeroP, $ejPartidas) {   //NO RECIBE $ejPartidas POR 
     }
 }
 //PUNTO 7 (E3)
+//esto es para probar
 cargarColeccionPalabras();
 "Ingrese una nueva palabra \n";
 $nuevaPalabra = trim(fgets(STDIN));
 agregarPalabra($arregloPalabras,$nuevaPalabra);
+/**Función en que la entrada es la colección de palabras y una palabra nueva,
+ * la función retorna la colección modificada al agregarse la palabra nueva
+ * @param array $coleccionPalabras
+ * @param STRING $palabraNueva
+ */
 function agregarPalabra($coleccionPalabras, $palabraNueva) {
-    $coleccionPalabras = [$palabraNueva];
+    $coleccionPalabras[] = $palabraNueva;
     return ($coleccionPalabras);
 }
 /* ****COMPLETAR***** */

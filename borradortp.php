@@ -68,6 +68,6 @@ agregarPalabra($arregloPalabras,$nuevaPalabra);
  * @param STRING $palabraNueva
  */
 function agregarPalabra($coleccionPalabras, $palabraNueva) {
-    $coleccionPalabras = [$palabraNueva];
+    $coleccionPalabras[] = $palabraNueva;
     return ($coleccionPalabras);
 }
