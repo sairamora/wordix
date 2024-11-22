@@ -71,3 +71,27 @@ function agregarPalabra($coleccionPalabras, $palabraNueva) {
     $coleccionPalabras[] = $palabraNueva;
     return ($coleccionPalabras);
 }
+
+//BORRADOR FUNCION 8
+/**
+ * Función que dada una colección de partidas y el nombre de un jugador, 
+ * retorna el índice de la primer partida ganada por dicho jugador. 
+ * Si el jugador no ganó ninguna partida la función retorna el valor -1
+ * @param array $coleccionPartidas
+ * @param STRING $nombreJugador
+ */
+function primerPartidaGanada ($coleccionPartidas, $nombreJugador) {
+    echo "chau";
+}
+
+//borrador de la funcion que hay que completar en wordix:
+/**Esta funcion obtiene el puntaje que se sacó el usuario en una partida
+ * tendria que entrar el arreglo de partidas jugadas (nuestro), 
+ * ****COMPLETAR***** documentación de la intefaz
+ */         
+function obtenerPuntajeWordix()  /* ****COMPLETAR***** parámetros formales necesarios */
+{
+
+    /* ****COMPLETAR***** cuerpo de la función*/
+    return 0;
+}

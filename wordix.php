@@ -30,9 +30,9 @@ const ESTADO_LETRA_PERTENECE = "pertenece";
  * VER SI ESTE COMENTARIO AGREGADO ESTA BIEN
  * Esta función determina si un string es un numero, lo convierte y después solicita 
  * un numero entre el rango de valores dado por parámetro
- * @param INT $min
- * @param INT $max
- * @return INT
+ * @param int $min
+ * @param int $max
+ * @return int
  */
 function solicitarNumeroEntre($min, $max)
 {
@@ -142,8 +142,8 @@ function escribirMensajeBienvenida($usuario)
 /**
  * ****COMPLETAR*****
  * Esta función determina ???
- * @param STRING $cadena
- * @return STRING
+ * @param string $cadena
+ * @return string
  */
 function esPalabra($cadena)
 {
@@ -162,7 +162,7 @@ function esPalabra($cadena)
  *  ****COMPLETAR*****
  * Esta función le pide al usuario que ingrese una palabra de 5 letras y si es válida
  * la retorna. Si no es válida la vuelve a pedir
- * @return STRING
+ * @return string
  */
 function leerPalabra5Letras()
 {

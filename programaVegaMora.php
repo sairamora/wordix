@@ -64,9 +64,11 @@ function seleccionarOpcion () {
 }
 
 //PUNTO 4 (E3)
+//Esta función es invocada directamente desde wordix.php
 leerPalabra5Letras();
 
 //PUNTO 5 (E3)
+//Esta función es invocada directamente desde wordix.php
 solicitarNumeroEntre($nMin, $nMax);
 
 //PUNTO 6 (E3)
@@ -112,4 +114,6 @@ function agregarPalabra($coleccionPalabras, $palabraNueva) {
 //$partida = jugarWordix("MELON", strtolower("MaJo"));
 //print_r($partida);
 //imprimirResultado($partida);
+
+
 ?>
