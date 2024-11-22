@@ -27,7 +27,12 @@ const ESTADO_LETRA_PERTENECE = "pertenece";
 /**************************************/
 
 /**
- *  ****COMPLETAR*****
+ * VER SI ESTE COMENTARIO AGREGADO ESTA BIEN
+ * Esta función determina si un string es un numero, lo convierte y después solicita 
+ * un numero entre el rango de valores dado por parámetro
+ * @param INT $min
+ * @param INT $max
+ * @return INT
  */
 function solicitarNumeroEntre($min, $max)
 {
@@ -120,6 +125,8 @@ function escribirSegunEstado($texto, $estado)
 }
 
 /**
+ * VER SI ESTA BIEN
+ * @param 
  * ****COMPLETAR*****
  */
 function escribirMensajeBienvenida($usuario)
@@ -134,6 +141,9 @@ function escribirMensajeBienvenida($usuario)
 
 /**
  * ****COMPLETAR*****
+ * Esta función determina ???
+ * @param STRING $cadena
+ * @return STRING
  */
 function esPalabra($cadena)
 {
@@ -150,6 +160,9 @@ function esPalabra($cadena)
 
 /**
  *  ****COMPLETAR*****
+ * Esta función le pide al usuario que ingrese una palabra de 5 letras y si es válida
+ * la retorna. Si no es válida la vuelve a pedir
+ * @return STRING
  */
 function leerPalabra5Letras()
 {
@@ -329,7 +342,7 @@ function esIntentoGanado($estructuraPalabraIntento)
 
 /**
  * ****COMPLETAR***** documentación de la intefaz
- */
+ */         
 function obtenerPuntajeWordix()  /* ****COMPLETAR***** parámetros formales necesarios */
 {
 
