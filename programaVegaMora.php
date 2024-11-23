@@ -96,7 +96,8 @@ agregarPalabra($arregloPalabras,$nuevaPalabra);
  * @param STRING $palabraNueva
  */
 function agregarPalabra($coleccionPalabras, $palabraNueva) {
-    $coleccionPalabras[] = $palabraNueva;
+    $indColeccion = count ($coleccionPalabras);
+    $coleccionPalabras[$indColeccion] = $palabraNueva;
     return ($coleccionPalabras);
 }
 /* ****COMPLETAR***** */
@@ -111,7 +112,7 @@ function agregarPalabra($coleccionPalabras, $palabraNueva) {
 
 //Proceso:
 
-//$partida = jugarWordix("MELON", strtolower("MaJo"));
+$partida = jugarWordix("MELON", strtolower("MaJo"));
 //print_r($partida);
 //imprimirResultado($partida);
 

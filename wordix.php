@@ -140,10 +140,12 @@ function escribirMensajeBienvenida($usuario)
 
 
 /**
- * ****COMPLETAR*****
- * Esta función determina ???
+ * Esta función verifica que una palabra esté compuesta solamente por letras y
+ * retorna true si solo está compuesta por letras, y false si la palabra tiene algún otro 
+ * caracter que no sea una letra
+ * 
  * @param string $cadena
- * @return string
+ * @return boolean
  */
 function esPalabra($cadena)
 {
@@ -158,10 +160,10 @@ function esPalabra($cadena)
     return $esLetra;
 }
 
-/**
- *  ****COMPLETAR*****
- * Esta función le pide al usuario que ingrese una palabra de 5 letras y si es válida
- * la retorna. Si no es válida la vuelve a pedir
+/**D454BF98DF
+ * Esta función le pide al usuario que ingrese una palabra de 5 letras, si es válida la convierte a
+ * mayúsculas (si es necesario) y la retorna. Si no es válida la vuelve a pedir hasta que se ingrese 
+ * una palabra válida y ahí si la retorna
  * @return string
  */
 function leerPalabra5Letras()
