@@ -27,9 +27,9 @@ const ESTADO_LETRA_PERTENECE = "pertenece";
 /**************************************/
 
 /**
- * VER SI ESTE COMENTARIO AGREGADO ESTA BIEN
- * Esta función determina si un string es un numero, lo convierte y después solicita 
- * un numero entre el rango de valores dado por parámetro
+ * FUNCION COMPLETA 1
+ * Esta función pide al usuario un numero entero dentro de un rango de valores (min, max) y si
+ * es válido lo retorna. Si no es válido pide otro hasta que sea válido y lo retorna.
  * @param int $min
  * @param int $max
  * @return int
@@ -125,9 +125,9 @@ function escribirSegunEstado($texto, $estado)
 }
 
 /**
- * VER SI ESTA BIEN
- * @param 
- * ****COMPLETAR*****
+ * FUNCION COMPLETA 2.
+ * Esta función saluda al usuario por su nombre (en amarillo) y lo invita a jugar una partida de wordix
+ * @param string $usuario
  */
 function escribirMensajeBienvenida($usuario)
 {
@@ -140,10 +140,9 @@ function escribirMensajeBienvenida($usuario)
 
 
 /**
- * Esta función verifica que una palabra esté compuesta solamente por letras y
- * retorna true si solo está compuesta por letras, y false si la palabra tiene algún otro 
- * caracter que no sea una letra
- * 
+ * Esta función verifica que una palabra esté compuesta solamente por letras.
+ * Retorna true si solo está compuesta por letras, y false si la palabra tiene algún otro 
+ * caracter que no sea una letra    
  * @param string $cadena
  * @return boolean
  */
@@ -160,7 +159,7 @@ function esPalabra($cadena)
     return $esLetra;
 }
 
-/**D454BF98DF
+/**
  * Esta función le pide al usuario que ingrese una palabra de 5 letras, si es válida la convierte a
  * mayúsculas (si es necesario) y la retorna. Si no es válida la vuelve a pedir hasta que se ingrese 
  * una palabra válida y ahí si la retorna
@@ -343,7 +342,8 @@ function esIntentoGanado($estructuraPalabraIntento)
 }
 
 /**
- * ****COMPLETAR***** documentación de la intefaz
+ * Esta función obtiene el puntaje de una partida jugada en wordix
+ * debe hacerse con el numero de intentos que se hicieron y las letras de la palabra
  */         
 function obtenerPuntajeWordix()  /* ****COMPLETAR***** parámetros formales necesarios */
 {
