@@ -100,6 +100,22 @@ function agregarPalabra($coleccionPalabras, $palabraNueva) {
     $coleccionPalabras[$indColeccion] = $palabraNueva;
     return ($coleccionPalabras);
 }
+//PUNTO 10
+function solicitarJugador() {
+    echo "Ingrese el nombre de un jugador \n";
+    $jugador = trim(fgets(STDIN));
+    do {
+        $caracterUno = substr($jugador,0,1);
+        $esLetra = ctype_alpha($caracterUno);                   //si es letra ($esLetra==true), sale del bucle
+        if ($esLetra==false) {                                        //si no es letra, solicita otro nombre y lo guarda
+            echo "El nombre no es valido, ingrese otro \n";
+            $jugador = trim(fgets(STDIN));
+        }
+    } while ($esLetra==false);                                        //no sale del bucle hasta que el nombre sea valido
+    $jugadorMinusculas = strtolower($jugador);                //convierte el nombre a minusculas
+    return ($jugadorMinusculas);
+}
+
 /* ****COMPLETAR***** */
 
 /**************************************/
