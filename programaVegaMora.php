@@ -28,18 +28,18 @@ function cargarColeccionPalabras() {
 
 //PUNTO 2 (E3)
 function cargarPartidas () {    //CAMBIAR segun la modificacion del punto 7
-    $ejPartidas = [];
-    $ejPartidas[0] = ["palabraWordix" => "QUESO", "jugador" => "majo", "intentos" => 0, "puntaje" => 0];
-    $ejPartidas[1] = ["palabraWordix" => "CASAS", "jugador" => "rudolf", "intentos" => 3, "puntaje" => 14];
-    $ejPartidas[2] = ["palabraWordix" => "QUESO", "jugador" => "pink2000", "intentos" => 6, "puntaje" => 10];
-    $ejPartidas[3] = ["palabraWordix" => "HUEVO", "jugador" => "majo", "intentos" => 4, "puntaje" => 11];                   
-    $ejPartidas[4] = ["palabraWordix" => "PIANO", "jugador" => "lyra", "intentos" => 1, "puntaje" => 15]; 
-    $ejPartidas[5] = ["palabraWordix" => "NAVES", "jugador" => "yaki", "intentos" => 1, "puntaje" => 17]; 
-    $ejPartidas[6] = ["palabraWordix" => "YUYOS", "jugador" => "pink2000", "intentos" => 5, "puntaje" => 13];
-    $ejPartidas[7] = ["palabraWordix" => "TINTO", "jugador" => "max", "intentos" => 2, "puntaje" => 16]; 
-    $ejPartidas[8] = ["palabraWordix" => "VERDE", "jugador" => "body", "intentos" => 3, "puntaje" => 14];   
-    $ejPartidas[9] = ["palabraWordix" => "MELON", "jugador" => "zac", "intentos" => 6, "puntaje" => 10];
-    return ($ejPartidas);
+    $arrayPartidas = [];
+    $arrayPartidas[0] = ["palabraWordix" => "QUESO", "jugador" => "majo", "intentos" => 0, "puntaje" => 0];
+    $arrayPartidas[1] = ["palabraWordix" => "CASAS", "jugador" => "rudolf", "intentos" => 3, "puntaje" => 14];
+    $arrayPartidas[2] = ["palabraWordix" => "QUESO", "jugador" => "pink2000", "intentos" => 6, "puntaje" => 10];
+    $arrayPartidas[3] = ["palabraWordix" => "HUEVO", "jugador" => "majo", "intentos" => 4, "puntaje" => 11];                   
+    $arrayPartidas[4] = ["palabraWordix" => "PIANO", "jugador" => "lyra", "intentos" => 1, "puntaje" => 15]; 
+    $arrayPartidas[5] = ["palabraWordix" => "NAVES", "jugador" => "yaki", "intentos" => 1, "puntaje" => 17]; 
+    $arrayPartidas[6] = ["palabraWordix" => "YUYOS", "jugador" => "pink2000", "intentos" => 5, "puntaje" => 13];
+    $arrayPartidas[7] = ["palabraWordix" => "TINTO", "jugador" => "max", "intentos" => 2, "puntaje" => 16]; 
+    $arrayPartidas[8] = ["palabraWordix" => "VERDE", "jugador" => "body", "intentos" => 3, "puntaje" => 14];   
+    $arrayPartidas[9] = ["palabraWordix" => "MELON", "jugador" => "zac", "intentos" => 6, "puntaje" => 10];
+    return ($arrayPartidas);
 }
 //PUNTO 3 (E3)
 /**
@@ -72,7 +72,7 @@ leerPalabra5Letras();
 solicitarNumeroEntre($nMin, $nMax);
 
 //PUNTO 6 (E3)
-function mostrarPartida ($numeroP, $ejPartidas) {   //NO RECIBE $ejPartidas POR PARAMETRO, RECIBE LA PARTIDA VERDADERA
+function mostrarPartida ($numeroP, $ejPartidas) {
     cargarPartidas();
     echo "Partida WORDIX " . ($numeroP) . ": palabra " . $ejPartidas[$numeroP-1]["palabraWordix"] . ".\n";
     echo "Jugador: " . $ejPartidas[$numeroP-1]["jugador"] . ".\n";
@@ -116,18 +116,6 @@ function solicitarJugador() {
     return ($jugadorMinusculas);
 }
 
-/**
- * COMPLETAR (CREADA PARA EL CASO 1)
- */
-function partidasUsadas ($arregloUsadas, $numPalabra) {
-    foreach ($arregloUsadas as $palabraUsada) {                 //recorrido total del arreglo
-        if ($palabraUsada==$numPalabra) {                       //si el numero ingresado ya se encuentra en el arreglo
-            return true;                                        //retorna true
-        }
-    }
-    return false;                                               //sino, retorna false
- }
-
 /* ****COMPLETAR***** */
 
 /**************************************/
@@ -148,34 +136,41 @@ do {
     $opcion = trim(fgets(STDIN));
         switch ($opcion) {
         case 1: 
-            //CASO 1 - MENU 
+            //CASO 1 - MENU
+            //VARIABLES**********
             //string $nombre, $palabra 
             //int $nPalabra 
-
-            echo "Ingrese el nombre de un jugador \n"; 
-            $nombre = trim(fgets(STDIN));
-
+            $jugador = solicitarJugador();
             $arregloPalabras = cargarColeccionPalabras();
+            $arregloPartidas = cargarPartidas();
             $arregloUsadas = [];                    //inicializo un arreglo para guardar las partidas ya elegidas
             do {
                 echo "Ingrese un numero de palabra \n"; 
                 $nPalabra = trim(fgets(STDIN)); 
-                if ($nPalabra>=0 && $nPalabra<count($arregloPalabras)) {    //entra si el numero de palabra existe en el arreglo
-                    if (!partidasUsadas($arregloUsadas,$nPalabra)) {               //entra cuando el retorno es false, negado es true
-                        $palabra = $arregloPalabras[$nPalabra]; 
-                        echo "Palabra: " . $palabra . "\n";                        
-                        $arregloUsadas[] = $nPalabra;                             //guarda la palabra en el arreglo
-                        //print_r($arregloUsadas);                      //descomentar para probar, SACARLO
-                        //AGREGAR QUE SE JUEGUE LA PARTIDA 
-                        //GUARDAR LOS DATOS DE LA PARTIDA
-                    } else {
-                        echo "Este numero de palabra ya fue utilizado. \n";       //si devolvio true el numero ya se uso
+                if ($nPalabra >= 0 && $nPalabra < count($arregloPalabras)) {    //si el n ingresado es una palabra
+                    $palabra = $arregloPalabras[$nPalabra];             //busca la palabra elegida en el arreglo de palabras
+                    $usada = false;
+                    foreach ($arregloPartidas as $partida) {              //recorre el arreglo de partidas
+                        if ($partida["palabraWordix"] == $palabra) { //si la palabra ingresada ya fue usada en las partidas anteriores MAL
+                            $usada = true;                          //cambia a TRUE y sale
+                        }
+                    }
+                    if (!$usada) {                                  //si sigue siendo FALSE (no entro en la anterior)
+                        foreach ($arregloUsadas as $palabraUsada) { //recorre el arreglo de palabras usadas
+                            if ($palabraUsada == $nPalabra) {       //si la palabra ya fue usada
+                                $usada = true;                      //cambia a TRUE y sale
+                            }
+                        }
+                    }
+                    if (!$usada) {                          //si sigue siendo FALSE (no entro en ninguno de los dos anteriores)
+                        $arregloUsadas[] = $nPalabra;       //la guarda en el arreglo de palabras usadas
+                    } else {    
+                        echo "El numero de palabra ya fue utilizado. \n";       //si es TRUE ya fue utilizada
                     }
                 } else {
-                    echo "El numero ingresado no pertenece a una partida. Ingrese otro. \n";
+                    echo "El numero ingresado no pertenece a una palabra. Ingrese otro. \n"; //si no existe una palabra con ese n
                 }
-            } while (count($arregloUsadas)<count($arregloPalabras));    //mientras queden palabras por usar 
-
+            } while (count($arregloUsadas)<count($arregloPalabras));    //mientras queden palabras por usar
             break;
         case 2: 
             //completar qué secuencia de pasos ejecutar si el usuario elige la opción 2
