@@ -116,6 +116,18 @@ function solicitarJugador() {
     return ($jugadorMinusculas);
 }
 
+/**
+ * COMPLETAR (CREADA PARA EL CASO 1)
+ */
+function partidasUsadas ($arregloUsadas, $numPalabra) {
+    foreach ($arregloUsadas as $palabraUsada) {                 //recorrido total del arreglo
+        if ($palabraUsada==$numPalabra) {                       //si el numero ingresado ya se encuentra en el arreglo
+            return true;                                        //retorna true
+        }
+    }
+    return false;                                               //sino, retorna false
+ }
+
 /* ****COMPLETAR***** */
 
 /**************************************/
@@ -132,5 +144,48 @@ $partida = jugarWordix("MELON", strtolower("MaJo"));
 //print_r($partida);
 //imprimirResultado($partida);
 
+do {
+    $opcion = trim(fgets(STDIN));
+        switch ($opcion) {
+        case 1: 
+            //CASO 1 - MENU 
+            //string $nombre, $palabra 
+            //int $nPalabra 
 
-?>
+            echo "Ingrese el nombre de un jugador \n"; 
+            $nombre = trim(fgets(STDIN));
+
+            $arregloPalabras = cargarColeccionPalabras();
+            $arregloUsadas = [];                    //inicializo un arreglo para guardar las partidas ya elegidas
+            do {
+                echo "Ingrese un numero de palabra \n"; 
+                $nPalabra = trim(fgets(STDIN)); 
+                if ($nPalabra>=0 && $nPalabra<count($arregloPalabras)) {    //entra si el numero de palabra existe en el arreglo
+                    if (!partidasUsadas($arregloUsadas,$nPalabra)) {               //entra cuando el retorno es false, negado es true
+                        $palabra = $arregloPalabras[$nPalabra]; 
+                        echo "Palabra: " . $palabra . "\n";                        
+                        $arregloUsadas[] = $nPalabra;                             //guarda la palabra en el arreglo
+                        //print_r($arregloUsadas);                      //descomentar para probar, SACARLO
+                        //AGREGAR QUE SE JUEGUE LA PARTIDA 
+                        //GUARDAR LOS DATOS DE LA PARTIDA
+                    } else {
+                        echo "Este numero de palabra ya fue utilizado. \n";       //si devolvio true el numero ya se uso
+                    }
+                } else {
+                    echo "El numero ingresado no pertenece a una partida. Ingrese otro. \n";
+                }
+            } while (count($arregloUsadas)<count($arregloPalabras));    //mientras queden palabras por usar 
+
+            break;
+        case 2: 
+            //completar qué secuencia de pasos ejecutar si el usuario elige la opción 2
+
+            break;
+        case 3: 
+            //completar qué secuencia de pasos ejecutar si el usuario elige la opción 3
+
+            break;
+        
+            //...
+    }
+} while ($opcion != 9);
