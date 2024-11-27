@@ -59,6 +59,7 @@ function seleccionarOpcion () {
         echo "6) Mostrar listado de partidas ordenadas por jugador y por palabra. \n";
         echo "7) Agregar una palabra de 5 letras a Wordix. \n";
         echo "8) Salir. \n";
+        echo "Ingrese una opcion. \n";
         $opcion = solicitarNumeroEntre($minimo, $maximo);
     return ($opcion);
 }
@@ -132,45 +133,49 @@ $partida = jugarWordix("MELON", strtolower("MaJo"));
 //print_r($partida);
 //imprimirResultado($partida);
 
+//VARIABLES - ARREGLOS
+$opcionMenu = seleccionarOpcion();
+$arregloUsadas = [];
+
 do {
-    $opcion = trim(fgets(STDIN));
-        switch ($opcion) {
-        case 1: 
-            //CASO 1 - MENU
-            //VARIABLES**********
-            //string $nombre, $palabra 
-            //int $nPalabra 
-            $jugador = solicitarJugador();
+    switch ($opcionMenu) {
+        case 1:
+            //VARIABLES
             $arregloPalabras = cargarColeccionPalabras();
             $arregloPartidas = cargarPartidas();
-            $arregloUsadas = [];                    //inicializo un arreglo para guardar las partidas ya elegidas
+            $jugador = solicitarJugador();
+            $parar = false;
             do {
                 echo "Ingrese un numero de palabra \n"; 
                 $nPalabra = trim(fgets(STDIN)); 
-                if ($nPalabra >= 0 && $nPalabra < count($arregloPalabras)) {    //si el n ingresado es una palabra
-                    $palabra = $arregloPalabras[$nPalabra];             //busca la palabra elegida en el arreglo de palabras
+                if ($nPalabra >= 0 && $nPalabra < count($arregloPalabras)) {
+                    $palabra = $arregloPalabras[$nPalabra]; 
                     $usada = false;
-                    foreach ($arregloPartidas as $partida) {              //recorre el arreglo de partidas
-                        if ($partida["palabraWordix"] == $palabra) { //si la palabra ingresada ya fue usada en las partidas anteriores MAL
-                            $usada = true;                          //cambia a TRUE y sale
+                    foreach ($arregloPartidas as $partida) {
+                        if ($partida["palabraWordix"] == $palabra) {
+                            $usada = true;
                         }
                     }
-                    if (!$usada) {                                  //si sigue siendo FALSE (no entro en la anterior)
-                        foreach ($arregloUsadas as $palabraUsada) { //recorre el arreglo de palabras usadas
-                            if ($palabraUsada == $nPalabra) {       //si la palabra ya fue usada
-                                $usada = true;                      //cambia a TRUE y sale
+                    if (!$usada) {
+                        foreach ($arregloUsadas as $palabraUsada) {
+                            if ($palabraUsada == $nPalabra) {
+                                $usada = true;
                             }
                         }
                     }
-                    if (!$usada) {                          //si sigue siendo FALSE (no entro en ninguno de los dos anteriores)
-                        $arregloUsadas[] = $nPalabra;       //la guarda en el arreglo de palabras usadas
-                    } else {    
-                        echo "El numero de palabra ya fue utilizado. \n";       //si es TRUE ya fue utilizada
+                    if (!$usada) {
+                        //echo "Palabra: " . $palabra . "\n";                        //NO MOSTRAR
+                        $arregloUsadas[] = $nPalabra;
+                        //print_r($arregloUsadas);                                   //NO MOSTRAR
+                        $parar = true;
+                    } else {
+                        echo "El numero de palabra ya fue utilizado. \n";
                     }
                 } else {
-                    echo "El numero ingresado no pertenece a una palabra. Ingrese otro. \n"; //si no existe una palabra con ese n
+                    echo "Ingrese un numero valido. \n";
                 }
-            } while (count($arregloUsadas)<count($arregloPalabras));    //mientras queden palabras por usar
+            } while (count($arregloUsadas) < count($arregloPalabras) && $parar == false);
+            //HACER JUGAR LA PARTIDA CON EL N DE PALABRA ELEGIDO
             break;
         case 2: 
             //completar qué secuencia de pasos ejecutar si el usuario elige la opción 2
@@ -183,4 +188,4 @@ do {
         
             //...
     }
-} while ($opcion != 9);
+} while ($opcionMenu != 9);
