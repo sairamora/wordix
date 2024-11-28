@@ -135,16 +135,16 @@ $partida = jugarWordix("MELON", strtolower("MaJo"));
 
 //VARIABLES - ARREGLOS
 $opcionMenu = seleccionarOpcion();
+$arregloPalabras = cargarColeccionPalabras();
+$arregloPartidas = cargarPartidas();
 $arregloUsadas = [];
+$parar = false;
 
 do {
     switch ($opcionMenu) {
         case 1:
             //VARIABLES
-            $arregloPalabras = cargarColeccionPalabras();
-            $arregloPartidas = cargarPartidas();
             $jugador = solicitarJugador();
-            $parar = false;
             do {
                 echo "Ingrese un numero de palabra \n"; 
                 $nPalabra = trim(fgets(STDIN)); 
@@ -164,9 +164,7 @@ do {
                         }
                     }
                     if (!$usada) {
-                        //echo "Palabra: " . $palabra . "\n";                        //NO MOSTRAR
                         $arregloUsadas[] = $nPalabra;
-                        //print_r($arregloUsadas);                                   //NO MOSTRAR
                         $parar = true;
                     } else {
                         echo "El numero de palabra ya fue utilizado. \n";
@@ -177,9 +175,34 @@ do {
             } while (count($arregloUsadas) < count($arregloPalabras) && $parar == false);
             //HACER JUGAR LA PARTIDA CON EL N DE PALABRA ELEGIDO
             break;
-        case 2: 
-            //completar qué secuencia de pasos ejecutar si el usuario elige la opción 2
-
+        case 2:
+            //PROBAR VARIAS VECES, CORREGIR ERROR
+            //VARIABLES
+            $jugador = solicitarJugador();
+            do {
+                $nRandom = rand(0, count($arregloPalabras) - 1);
+                if ($nRandom >= 0 && $nRandom < count($arregloPalabras)) {
+                    $palabraRandom = $arregloPalabras[$nRandom];
+                    $usada = false;
+                    foreach ($arregloPartidas as $partida) {
+                        if ($partida["palabraWordix"] == $palabraRandom) {
+                            $usada = true;
+                        }
+                    }
+                    if (!$usada) {
+                        foreach ($arregloUsadas as $palabraUsada) {
+                            if ($palabraUsada == $nRandom) {
+                                $usada = true;
+                            }
+                        }
+                    }
+                    if (!$usada) {
+                        $arregloUsadas[] = $nRandom;
+                        $parar = true;
+                    }
+                }
+            } while (count($arregloUsadas) < count($arregloPalabras) && $parar == false);
+            //HACER JUGAR LA PARTIDA CON LA PALABRA ALEATORIA
             break;
         case 3: 
             //completar qué secuencia de pasos ejecutar si el usuario elige la opción 3
