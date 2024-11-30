@@ -22,6 +22,7 @@ function cargarColeccionPalabras() {
     "MUJER", "QUESO", "FUEGO", "CASAS", "RASGO",
     "GATOS", "GOTAS", "HUEVO", "TINTO", "NAVES",
     "VERDE", "MELON", "YUYOS", "PIANO", "PISOS",
+    //CARGAR 5
     ];
     return ($coleccionPalabras);
 }
@@ -73,17 +74,20 @@ leerPalabra5Letras();
 solicitarNumeroEntre($nMin, $nMax);
 
 //PUNTO 6 (E3)
-function mostrarPartida ($numeroP, $ejPartidas) {
+function mostrarPartida ($numeroPalabra, $arrayPartidas) {
     cargarPartidas();
-    echo "Partida WORDIX " . ($numeroP) . ": palabra " . $ejPartidas[$numeroP-1]["palabraWordix"] . ".\n";
-    echo "Jugador: " . $ejPartidas[$numeroP-1]["jugador"] . ".\n";
-    echo "Puntaje: " . $ejPartidas[$numeroP-1]["puntaje"] . ".\n";
-    $intento = $ejPartidas[$numeroP-1]["intentos"];
-    if ($intento>0 && $intento <=6 ) {
+    $indice = $numeroPalabra - 1;
+    echo "********************************** \n";
+    echo "Partida WORDIX " . ($numeroPalabra) . ": palabra " . $arrayPartidas[$indice]["palabraWordix"] . ".\n";
+    echo "Jugador: " . $arrayPartidas[$indice]["jugador"] . ".\n";
+    echo "Puntaje: " . $arrayPartidas[$indice]["puntaje"] . ".\n";
+    $intento = $arrayPartidas[$indice]["intentos"];
+    if ($intento > 0 && $intento <= 6 ) {
         echo "Adivino la palabra en " . $intento . " intentos. \n";
     } else {
         echo "No adivino la palabra. \n";
     }
+    echo "********************************** \n";
 }
 //PUNTO 7 (E3)
 //esto es para probar
@@ -139,7 +143,6 @@ $arregloPalabras = cargarColeccionPalabras();
 $arregloPartidas = cargarPartidas();
 $arregloUsadas = [];
 $parar = false;
-
 do {
     switch ($opcionMenu) {
         case 1:
@@ -172,11 +175,12 @@ do {
                 } else {
                     echo "Ingrese un numero valido. \n";
                 }
+                echo "\n";
             } while (count($arregloUsadas) < count($arregloPalabras) && $parar == false);
             //HACER JUGAR LA PARTIDA CON EL N DE PALABRA ELEGIDO
             break;
         case 2:
-            //PROBAR VARIAS VECES, CORREGIR ERROR
+            //PROBAR VARIAS VECES, CORREGIR ERROR - es xq se terminan las palabras NO usadas?
             //VARIABLES
             $jugador = solicitarJugador();
             do {
@@ -204,11 +208,66 @@ do {
             } while (count($arregloUsadas) < count($arregloPalabras) && $parar == false);
             //HACER JUGAR LA PARTIDA CON LA PALABRA ALEATORIA
             break;
-        case 3: 
-            //completar qué secuencia de pasos ejecutar si el usuario elige la opción 3
-
+        case 3:
+            echo "Ingrese un numero de partida \n";
+            $nPartida = trim(fgets(STDIN));                         //N PARTIDA + 1???
+            if ($nPartida >= 0 && $nPartida < count($arregloPartidas)) {
+                mostrarPartida($nPartida, $arregloPartidas);
+            } else {
+                echo "El numero de partida no es valido.";
+            }
+            echo "\n";
             break;
-        
-            //...
+        case 4:
+            //VARIABLES
+            $jugador = solicitarJugador();
+            $encontrada = false;
+            $jugo = false;
+            $i = 0;
+            while ($i < count($arregloPartidas) && $encontrada == false) {
+                $partida = $arregloPartidas[$i];
+                if ($partida["jugador"] == $jugador) { 
+                    $jugo = true;
+                    if ($partida["puntaje"] > 0) {
+                        mostrarPartida($i + 1, $arregloPartidas);
+                        echo "\n";
+                        $encontrada = true;
+                    }
+                }
+                $i++;
+            }
+            if (!$jugo) {
+                echo "El jugador " . $jugador . " no jugo WORDIX.";
+            } else if (!$encontrada) {
+                echo "El jugador " . $jugador . " no gano ninguna partida.";
+            }
+            echo "\n";
+            break;
+        case 5:
+            //VARIABLES
+            $jugador = solicitarJugador();
+            $contPartidas = 0;
+            $contVictorias = 0;
+            $acumPuntaje = 0;
+            foreach ($arregloPartidas as $partida) {
+                if ($partida["jugador"] == $jugador) {
+                    $contPartidas++;
+                    $acumPuntaje = $acumPuntaje + $partida["puntaje"];
+                    if ($partida["puntaje"] > 0) {
+                        $contVictorias++;
+                    }
+                    $porcVictorias = ($contVictorias / $contPartidas) * 100;                //se inicializa en 0??
+                }
+            }
+            echo "**************************************** \n";
+            echo "Jugador: " . $jugador . "\n";
+            echo "Partidas: " . $contPartidas . "\n";
+            echo "Puntaje Total: " . $acumPuntaje . "\n";
+            echo "Victorias: " . $contVictorias . "\n";
+            echo "Porcentaje Victorias: " . $porcVictorias . "%\n";
+            echo "**************************************** \n";
+            echo "\n";
+            //FALTAN ADIVINADAS!!!!!!!!!!!
+            break;
     }
 } while ($opcionMenu != 9);
