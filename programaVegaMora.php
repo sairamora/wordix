@@ -22,7 +22,7 @@ function cargarColeccionPalabras() {
     "MUJER", "QUESO", "FUEGO", "CASAS", "RASGO",
     "GATOS", "GOTAS", "HUEVO", "TINTO", "NAVES",
     "VERDE", "MELON", "YUYOS", "PIANO", "PISOS",
-    //CARGAR 5
+    "MOSCA", "PASTO", "CORAL", "TAZAS", "MISMA"
     ];
     return ($coleccionPalabras);
 }
@@ -33,13 +33,14 @@ function cargarPartidas () {    //CAMBIAR segun la modificacion del punto 7
     $arrayPartidas[0] = ["palabraWordix" => "QUESO", "jugador" => "majo", "intentos" => 0, "puntaje" => 0];
     $arrayPartidas[1] = ["palabraWordix" => "CASAS", "jugador" => "rudolf", "intentos" => 3, "puntaje" => 14];
     $arrayPartidas[2] = ["palabraWordix" => "QUESO", "jugador" => "pink2000", "intentos" => 6, "puntaje" => 10];
+
     $arrayPartidas[3] = ["palabraWordix" => "HUEVO", "jugador" => "majo", "intentos" => 4, "puntaje" => 11];                   
-    $arrayPartidas[4] = ["palabraWordix" => "PIANO", "jugador" => "lyra", "intentos" => 1, "puntaje" => 15]; 
-    $arrayPartidas[5] = ["palabraWordix" => "NAVES", "jugador" => "yaki", "intentos" => 1, "puntaje" => 17]; 
+    $arrayPartidas[4] = ["palabraWordix" => "PIANO", "jugador" => "pink2000", "intentos" => 1, "puntaje" => 15]; 
+    $arrayPartidas[5] = ["palabraWordix" => "NAVES", "jugador" => "rudolf", "intentos" => 1, "puntaje" => 17]; 
     $arrayPartidas[6] = ["palabraWordix" => "YUYOS", "jugador" => "pink2000", "intentos" => 5, "puntaje" => 13];
-    $arrayPartidas[7] = ["palabraWordix" => "TINTO", "jugador" => "max", "intentos" => 2, "puntaje" => 16]; 
-    $arrayPartidas[8] = ["palabraWordix" => "VERDE", "jugador" => "body", "intentos" => 3, "puntaje" => 14];   
-    $arrayPartidas[9] = ["palabraWordix" => "MELON", "jugador" => "zac", "intentos" => 6, "puntaje" => 10];
+    $arrayPartidas[7] = ["palabraWordix" => "TINTO", "jugador" => "rudolf", "intentos" => 2, "puntaje" => 16]; 
+    $arrayPartidas[8] = ["palabraWordix" => "VERDE", "jugador" => "majo", "intentos" => 3, "puntaje" => 14];   
+    $arrayPartidas[9] = ["palabraWordix" => "MELON", "jugador" => "rudolf", "intentos" => 6, "puntaje" => 10];
     return ($arrayPartidas);
 }
 //PUNTO 3 (E3)
@@ -49,8 +50,8 @@ function cargarPartidas () {    //CAMBIAR segun la modificacion del punto 7
  */
 function seleccionarOpcion () {
     //int $opcion, $minimo, $maximo
-    $minimo = 1;
-    $maximo = 8;
+    $minimo = 1;        //valor minimo permitido
+    $maximo = 8;        //valor maximo permitido
         echo "Menu WORDIX \n";
         echo "1) Jugar al wordix con una palabra elegida. \n";
         echo "2) Jugar al wordix con una palabra aleatoria. \n";
@@ -61,7 +62,7 @@ function seleccionarOpcion () {
         echo "7) Agregar una palabra de 5 letras a Wordix. \n";
         echo "8) Salir. \n";
         echo "Ingrese una opcion. \n";
-        $opcion = solicitarNumeroEntre($minimo, $maximo);
+        $opcion = solicitarNumeroEntre($minimo, $maximo);   //invoca la funcion de wordix.php
     return ($opcion);
 }
 
@@ -73,28 +74,35 @@ leerPalabra5Letras();
 //Esta función es invocada directamente desde wordix.php
 solicitarNumeroEntre($nMin, $nMax);
 
-//PUNTO 6 (E3)
-function mostrarPartida ($numeroPalabra, $arrayPartidas) {
-    cargarPartidas();
-    $indice = $numeroPalabra - 1;
-    echo "********************************** \n";
-    echo "Partida WORDIX " . ($numeroPalabra) . ": palabra " . $arrayPartidas[$indice]["palabraWordix"] . ".\n";
-    echo "Jugador: " . $arrayPartidas[$indice]["jugador"] . ".\n";
-    echo "Puntaje: " . $arrayPartidas[$indice]["puntaje"] . ".\n";
-    $intento = $arrayPartidas[$indice]["intentos"];
-    if ($intento > 0 && $intento <= 6 ) {
-        echo "Adivino la palabra en " . $intento . " intentos. \n";
+//PUNTO 6 (E3) LISTA
+/**
+ * Esta funcion recibe por parametro el numero de palabra y el arreglo de partidas.............
+ */
+function mostrarPartida ($nPartida, $arrayPartidas) {
+    if (is_numeric($nPartida) && (int)($nPartida) == $nPartida) {           //verifica si lo ingresado es un numero y si es un numero de tipo int
+        $indice = $nPartida - 1;                    //le resta 1 al numero ingresado para acceder al arreglo desde el indice 0
+        if ($indice < count($arrayPartidas)) {      //verifica que el indice pertece al arreglo
+            echo "********************************** \n";
+            echo "Partida WORDIX " . ($nPartida) . ": palabra " . $arrayPartidas[$indice]["palabraWordix"] . ".\n";
+            echo "Jugador: " . $arrayPartidas[$indice]["jugador"] . ".\n";
+            echo "Puntaje: " . $arrayPartidas[$indice]["puntaje"] . ".\n";
+            $intento = $arrayPartidas[$indice]["intentos"];
+            if ($intento > 0 && $intento <= 6 ) {                   //verifica que el jugador haya adivinado la palabra
+                echo "Adivino la palabra en " . $intento . " intentos. \n";
+            } else {
+                echo "No adivino la palabra. \n";
+            }
+                echo "********************************** \n";
+        } else {
+            echo "El numero ingresado no pertenece a una partida. \n";
+        }
     } else {
-        echo "No adivino la palabra. \n";
-    }
-    echo "********************************** \n";
+        echo "Debe ingresar un numero entero. \n";
+    }   
 }
 //PUNTO 7 (E3)
-//esto es para probar
-cargarColeccionPalabras();
-"Ingrese una nueva palabra \n";
-$nuevaPalabra = trim(fgets(STDIN));
-agregarPalabra($arregloPalabras,$nuevaPalabra);
+
+
 /**Función en que la entrada es la colección de palabras y una palabra nueva,
  * la función retorna la colección modificada al agregarse la palabra nueva
  * @param array $coleccionPalabras
