@@ -298,7 +298,7 @@ do {
             break;
         case 3:
             echo "Ingrese un numero de partida \n";
-            $nPartida = trim(fgets(STDIN));                         //N PARTIDA + 1???
+            $nPartida = trim(fgets(STDIN));
             if ($nPartida >= 0 && $nPartida < count($arregloPartidas)) {
                 mostrarPartida($nPartida, $arregloPartidas);
             } else {
@@ -352,7 +352,6 @@ do {
             break;
         case 7:
             $palabraN = leerPalabra5Letras();
-            $arregloPalabras = cargarColeccionPalabras();
             $existe = false;
             $i = 0;
             while ($i < count($arregloPalabras) && $existe == false) {
