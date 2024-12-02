@@ -40,7 +40,7 @@ function cargarPartidas () {    //CAMBIAR segun la modificacion del punto 7
     $arrayPartidas[6] = ["palabraWordix" => "YUYOS", "jugador" => "pink2000", "intentos" => 5, "puntaje" => 13];
     $arrayPartidas[7] = ["palabraWordix" => "TINTO", "jugador" => "rudolf", "intentos" => 2, "puntaje" => 16]; 
     $arrayPartidas[8] = ["palabraWordix" => "VERDE", "jugador" => "majo", "intentos" => 3, "puntaje" => 14];   
-    $arrayPartidas[9] = ["palabraWordix" => "MELON", "jugador" => "rudolf", "intentos" => 6, "puntaje" => 10];
+    $arrayPartidas[9] = ["palabraWordix" => "MELON", "jugador" => "pepe", "intentos" => 0, "puntaje" => 0];
     return ($arrayPartidas);
 }
 //PUNTO 3 (E3)
@@ -147,6 +147,13 @@ function resumenJugador ($arrayPartidas, $nomJugador) {
     $arrayResumenJug = [];
     $contPartidas = 0;
     $contVictorias = 0;
+
+    $contIntentoUno = 0;
+    $contIntentoDos = 0;
+    $contIntentoTres = 0;
+    $contIntentoCuatro = 0;
+    $contIntentoCinco = 0;
+    $contIntentoSeis = 0;
     $acumPuntaje = 0;
     foreach ($arrayPartidas as $partida) {
         if ($partida["jugador"] == $nomJugador) {
@@ -155,14 +162,34 @@ function resumenJugador ($arrayPartidas, $nomJugador) {
             if ($partida["puntaje"] > 0) {
                 $contVictorias++;
             }
+            if ($partida["intentos"] == 1) {
+                $contIntentoUno++;
+            } else if ($partida["intentos"] == 2) {
+                $contIntentoDos++;
+            } else if ($partida["intentos"] == 3) {
+                $contIntentoTres++;
+            } else if ($partida["intentos"] == 4) {
+                $contIntentoCuatro++;
+            } else if ($partida["intentos"] == 5) {
+                $contIntentoCinco++;
+            } else if ($partida["intentos"] == 6) {
+                $contIntentoSeis++;
+            }
         }
     }
-    $arrayResumenJug["jugador"] = $nomJugador;
-    $arrayResumenJug["partidas"] = $contPartidas;
-    $arrayResumenJug["puntaje"] = $acumPuntaje;
-    $arrayResumenJug["victorias"] = $contVictorias;
+        $arrayResumenJug["jugador"] = $nomJugador;
+        $arrayResumenJug["partidas"] = $contPartidas;
+        $arrayResumenJug["puntaje"] = $acumPuntaje;
+        $arrayResumenJug["victorias"] = $contVictorias;
+        $arrayResumenJug["intentoUno"] = $contIntentoUno;
+        $arrayResumenJug["intentoDos"] = $contIntentoDos;
+        $arrayResumenJug["intentoTres"] = $contIntentoTres;
+        $arrayResumenJug["intentoCuatro"] = $contIntentoCuatro;
+        $arrayResumenJug["intentoCinco"] = $contIntentoCinco;
+        $arrayResumenJug["intentoSeis"] = $contIntentoSeis;
     return($arrayResumenJug);
 }
+
 
 //PUNTO 10 (E3)
 /**
@@ -179,7 +206,7 @@ function solicitarJugador() {
             $jugador = trim(fgets(STDIN));
         }
     } while ($esLetra==false);                                        //no sale del bucle hasta que el nombre sea valido
-    $jugadorMinusculas = strtolower($jugador);                //convierte el nombre a minusculas
+    $jugadorMinusculas = strtolower($jugador);                   //convierte el nombre a minusculas
     return ($jugadorMinusculas);
 }
 
@@ -299,17 +326,41 @@ do {
             $jugador = solicitarJugador();
             $arregloPartidas = cargarPartidas();
             $arregloResumenJug = resumenjugador($arregloPartidas, $jugador);
-            $porcVictorias = ($arregloResumenJug["victorias"] / $arregloResumenJug["partidas"]) * 100;
-
-            echo "\n";
-            echo "**************************************** \n";
-            echo "Jugador: " . $arregloResumenJug["jugador"] . "\n";
-            echo "Partidas: " . $arregloResumenJug["partidas"] . "\n";
-            echo "Puntaje Total: " . $arregloResumenJug["puntaje" ]. "\n";
-            echo "Victorias: " . $arregloResumenJug["victorias"]. "\n";
-            echo "Porcentaje Victorias: " . $porcVictorias . "%\n";
-            echo "**************************************** \n";
-            echo "\n"; 
+            if ($arregloResumenJug["partidas"]) {
+                $porcVictorias = ($arregloResumenJug["victorias"] / $arregloResumenJug["partidas"]) * 100;
+                echo "\n";
+                echo "**************************************** \n";
+                echo "Jugador: " . $arregloResumenJug["jugador"] . "\n";
+                echo "Partidas: " . $arregloResumenJug["partidas"] . "\n";
+                echo "Puntaje Total: " . $arregloResumenJug["puntaje" ]. "\n";
+                echo "Victorias: " . $arregloResumenJug["victorias"]. "\n";
+                echo "Porcentaje Victorias: " . $porcVictorias . "%\n";
+                echo "Adivinadas: \n";
+                echo "      Intento 1: " . $arregloResumenJug["intentoUno"] . "\n";
+                echo "      Intento 2: " . $arregloResumenJug["intentoDos"] . "\n";
+                echo "      Intento 3: " . $arregloResumenJug["intentoTres"] . "\n";
+                echo "      Intento 4: " . $arregloResumenJug["intentoCuatro"] . "\n";
+                echo "      Intento 5: " . $arregloResumenJug["intentoCinco"] . "\n";
+                echo "      Intento 6: " . $arregloResumenJug["intentoSeis"] . "\n";
+                echo "**************************************** \n";
+                echo "\n"; 
+            } else {
+                echo "El jugador no jugo WORDIX. \n";
+            }
+            break;
+        case 6:
+            //funcion predefinida uasort y print_r
+            break;
+        case 7:
+            $palabraN = leerPalabra5Letras();
+            $arregloAct = agregarPalabra($arregloPalabras, $palabraN);
+            print_r($arregloSAct);
+            break;
+        case 8:
+            echo "SALIDA \n";
+            break;
+        default:
+            echo "La opcion ingresada no es parte del menu. Ingrese un numero valido. \n";
             break;
     }
-} while ($opcionMenu != 9);
+} while ($opcionMenu != 8);
