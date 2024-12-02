@@ -113,7 +113,28 @@ function agregarPalabra($coleccionPalabras, $palabraNueva) {
     $coleccionPalabras[$indColeccion] = $palabraNueva;
     return ($coleccionPalabras);
 }
-//PUNTO 10
+//PUNTO 9 (E3)
+function resumenJugador ($arrayPartidas, $nomJugador) {
+    $arrayResumenJug = [];
+    $contPartidas = 0;
+    $contVictorias = 0;
+    $acumPuntaje = 0;
+    foreach ($arrayPartidas as $partida) {
+        if ($partida["jugador"] == $nomJugador) {
+            $contPartidas++;
+            $acumPuntaje = $acumPuntaje + $partida["puntaje"];
+            if ($partida["puntaje"] > 0) {
+                $contVictorias++;
+            }
+        }
+    }
+    $arrayResumenJug["jugador"] = $nomJugador;
+    $arrayResumenJug["partidas"] = $contPartidas;
+    $arrayResumenJug["puntaje"] = $acumPuntaje;
+    $arrayResumenJug["victorias"] = $contVictorias;
+    return($arrayResumenJug);
+}
+//PUNTO 10 (E3)
 function solicitarJugador() {
     echo "Ingrese el nombre de un jugador \n";
     $jugador = trim(fgets(STDIN));
@@ -253,29 +274,21 @@ do {
             break;
         case 5:
             //VARIABLES
+            $porcVictorias = 0;
             $jugador = solicitarJugador();
-            $contPartidas = 0;
-            $contVictorias = 0;
-            $acumPuntaje = 0;
-            foreach ($arregloPartidas as $partida) {
-                if ($partida["jugador"] == $jugador) {
-                    $contPartidas++;
-                    $acumPuntaje = $acumPuntaje + $partida["puntaje"];
-                    if ($partida["puntaje"] > 0) {
-                        $contVictorias++;
-                    }
-                    $porcVictorias = ($contVictorias / $contPartidas) * 100;                //se inicializa en 0??
-                }
-            }
+            $arregloPartidas = cargarPartidas();
+            $arregloResumenJug = resumenjugador($arregloPartidas, $jugador);
+            $porcVictorias = ($arregloResumenJug["victorias"] / $arregloResumenJug["partidas"]) * 100;
+
+            echo "\n";
             echo "**************************************** \n";
-            echo "Jugador: " . $jugador . "\n";
-            echo "Partidas: " . $contPartidas . "\n";
-            echo "Puntaje Total: " . $acumPuntaje . "\n";
-            echo "Victorias: " . $contVictorias . "\n";
+            echo "Jugador: " . $arregloResumenJug["jugador"] . "\n";
+            echo "Partidas: " . $arregloResumenJug["partidas"] . "\n";
+            echo "Puntaje Total: " . $arregloResumenJug["puntaje" ]. "\n";
+            echo "Victorias: " . $arregloResumenJug["victorias"]. "\n";
             echo "Porcentaje Victorias: " . $porcVictorias . "%\n";
             echo "**************************************** \n";
-            echo "\n";
-            //FALTAN ADIVINADAS!!!!!!!!!!!
+            echo "\n"; 
             break;
     }
 } while ($opcionMenu != 9);
