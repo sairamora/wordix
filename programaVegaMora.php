@@ -82,6 +82,7 @@ function mostrarPartida ($nPartida, $arrayPartidas) {
     if (is_numeric($nPartida) && (int)($nPartida) == $nPartida) {           //verifica si lo ingresado es un numero y si es un numero de tipo int
         $indice = $nPartida - 1;                    //le resta 1 al numero ingresado para acceder al arreglo desde el indice 0
         if ($indice < count($arrayPartidas)) {      //verifica que el indice pertece al arreglo
+            echo "\n";
             echo "********************************** \n";
             echo "Partida WORDIX " . ($nPartida) . ": palabra " . $arrayPartidas[$indice]["palabraWordix"] . ".\n";
             echo "Jugador: " . $arrayPartidas[$indice]["jugador"] . ".\n";
@@ -113,7 +114,35 @@ function agregarPalabra($coleccionPalabras, $palabraNueva) {
     $coleccionPalabras[$indColeccion] = $palabraNueva;
     return ($coleccionPalabras);
 }
+
+//PUNTO 8 (E3)
+/**
+ * poner q hace!!!!!
+* @param array $arrayPartidas
+* @param string $nombJugador
+* ESTA ES LA FUNCION 8 NUEVA
+*/
+function indPrimerPartida ($arrayPartidas, $nomJugador) {
+   $gano = false;
+   $i = 0;
+   $retorno = -1;
+   do {
+       $partida = $arrayPartidas[$i];
+       if ($partida["jugador"] == $nomJugador) {
+           if ($partida["puntaje"] > 0) {
+               $retorno = $i;
+               $gano = true;
+           }
+       }
+       $i++;
+   } while ($i < count($arrayPartidas) && $gano == false);
+   return ($retorno);
+}
+
 //PUNTO 9 (E3)
+/**
+ * poner q hace
+ */
 function resumenJugador ($arrayPartidas, $nomJugador) {
     $arrayResumenJug = [];
     $contPartidas = 0;
@@ -134,7 +163,11 @@ function resumenJugador ($arrayPartidas, $nomJugador) {
     $arrayResumenJug["victorias"] = $contVictorias;
     return($arrayResumenJug);
 }
+
 //PUNTO 10 (E3)
+/**
+ * a
+ */
 function solicitarJugador() {
     echo "Ingrese el nombre de un jugador \n";
     $jugador = trim(fgets(STDIN));
@@ -250,25 +283,13 @@ do {
         case 4:
             //VARIABLES
             $jugador = solicitarJugador();
-            $encontrada = false;
-            $jugo = false;
-            $i = 0;
-            while ($i < count($arregloPartidas) && $encontrada == false) {
-                $partida = $arregloPartidas[$i];
-                if ($partida["jugador"] == $jugador) { 
-                    $jugo = true;
-                    if ($partida["puntaje"] > 0) {
-                        mostrarPartida($i + 1, $arregloPartidas);
-                        echo "\n";
-                        $encontrada = true;
-                    }
-                }
-                $i++;
-            }
-            if (!$jugo) {
-                echo "El jugador " . $jugador . " no jugo WORDIX.";
-            } else if (!$encontrada) {
-                echo "El jugador " . $jugador . " no gano ninguna partida.";
+            $arregloPartidas = cargarPartidas();
+            $retornoIndice = indPrimerPartida ($arregloPartidas, $jugador);
+
+            if ($retornoIndice >= 0) {
+                mostrarPartida ($retornoIndice + 1, $arregloPartidas);
+            } else if ($retornoIndice == -1) {
+                echo "El jugador " .$jugador. " no ganó ninguna partida \n";
             }
             echo "\n";
             break;
