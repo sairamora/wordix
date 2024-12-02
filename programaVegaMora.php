@@ -110,8 +110,7 @@ function mostrarPartida ($nPartida, $arrayPartidas) {
  * @param STRING $palabraNueva
  */
 function agregarPalabra($coleccionPalabras, $palabraNueva) {
-    $indColeccion = count ($coleccionPalabras);
-    $coleccionPalabras[$indColeccion] = $palabraNueva;
+    $coleccionPalabras[count($coleccionPalabras)] = $palabraNueva;
     return ($coleccionPalabras);
 }
 
@@ -353,8 +352,20 @@ do {
             break;
         case 7:
             $palabraN = leerPalabra5Letras();
-            $arregloAct = agregarPalabra($arregloPalabras, $palabraN);
-            print_r($arregloSAct);
+            $arregloPalabras = cargarColeccionPalabras();
+            $existe = false;
+            $i = 0;
+            while ($i < count($arregloPalabras) && $existe == false) {
+                $palabra = $arregloPalabras[$i];
+                if($palabra == $palabraN) {
+                    echo "La palabra ya existe en WORDIX. Ingrese otra. \n";
+                    $existe = true;
+                }
+                $i++;
+            }
+            if ($existe == false) {
+                $arregloPalabras = agregarPalabra($arregloPalabras,$palabraN);
+            }
             break;
         case 8:
             echo "SALIDA \n";
@@ -364,3 +375,4 @@ do {
             break;
     }
 } while ($opcionMenu != 8);
+
