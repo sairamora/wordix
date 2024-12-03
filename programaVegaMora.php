@@ -68,11 +68,11 @@ function seleccionarOpcion () {
 
 //PUNTO 4 (E3)
 //Esta función es invocada directamente desde wordix.php
-leerPalabra5Letras();
+//leerPalabra5Letras();
 
 //PUNTO 5 (E3)
 //Esta función es invocada directamente desde wordix.php
-solicitarNumeroEntre($nMin, $nMax);
+//solicitarNumeroEntre($nMin, $nMax);
 
 //PUNTO 6 (E3) LISTA
 /**
@@ -121,7 +121,7 @@ function agregarPalabra($coleccionPalabras, $palabraNueva) {
 * @param string $nombJugador
 * ESTA ES LA FUNCION 8 NUEVA
 */
-function indPrimerPartida ($arrayPartidas, $nomJugador) {
+function iPrimerPartida ($arrayPartidas, $nomJugador) {
    $gano = false;
    $i = 0;
    $retorno = -1;
@@ -146,7 +146,7 @@ function resumenJugador ($arrayPartidas, $nomJugador) {
     $arrayResumenJug = [];
     $contPartidas = 0;
     $contVictorias = 0;
-
+    //revisar
     $contIntentoUno = 0;
     $contIntentoDos = 0;
     $contIntentoTres = 0;
@@ -221,17 +221,18 @@ function solicitarJugador() {
 
 //Proceso:
 
-$partida = jugarWordix("MELON", strtolower("MaJo"));
+//$partida = jugarWordix("MELON", strtolower("MaJo"));
 //print_r($partida);
 //imprimirResultado($partida);
 
 //VARIABLES - ARREGLOS
-$opcionMenu = seleccionarOpcion();
+
 $arregloPalabras = cargarColeccionPalabras();
 $arregloPartidas = cargarPartidas();
 $arregloUsadas = [];
 $parar = false;
 do {
+    $opcionMenu = seleccionarOpcion();
     switch ($opcionMenu) {
         case 1:
             //VARIABLES
@@ -258,14 +259,18 @@ do {
                         $arregloUsadas[] = $nPalabra;
                         $parar = true;
                     } else {
-                        echo "El numero de palabra ya fue utilizado. \n";
+                        echo "El numero de palabra ya fue utilizado. Ingrese otro. \n";
+                        $nPalabra = trim(fgets(STDIN));
                     }
                 } else {
                     echo "Ingrese un numero valido. \n";
+                    $nPalabra = trim(fgets(STDIN));
                 }
                 echo "\n";
             } while (count($arregloUsadas) < count($arregloPalabras) && $parar == false);
-            //HACER JUGAR LA PARTIDA CON EL N DE PALABRA ELEGIDO
+            $juegoCasoUno = jugarWordix($palabra, $jugador);
+            $arregloPartidas[count($arregloPartidas)] = $juegoCasoUno;
+            print_r($arregloPartidas);
             break;
         case 2:
             //PROBAR VARIAS VECES, CORREGIR ERROR - es xq se terminan las palabras NO usadas?
@@ -294,7 +299,9 @@ do {
                     }
                 }
             } while (count($arregloUsadas) < count($arregloPalabras) && $parar == false);
-            //HACER JUGAR LA PARTIDA CON LA PALABRA ALEATORIA
+            $juegoCasoDos = jugarWordix($palabraRandom, $jugador);
+            $arregloPartidas[count($arregloPartidas)] = $juegoCasoDos;
+            print_r($arregloPartidas);
             break;
         case 3:
             echo "Ingrese un numero de partida \n";
@@ -310,12 +317,12 @@ do {
             //VARIABLES
             $jugador = solicitarJugador();
             $arregloPartidas = cargarPartidas();
-            $retornoIndice = indPrimerPartida ($arregloPartidas, $jugador);
+            $retornoIndice = iPrimerPartida ($arregloPartidas, $jugador);
 
             if ($retornoIndice >= 0) {
                 mostrarPartida ($retornoIndice + 1, $arregloPartidas);
             } else if ($retornoIndice == -1) {
-                echo "El jugador " .$jugador. " no ganó ninguna partida \n";
+                echo "El jugador " . $jugador . " no ganó ninguna partida \n";
             }
             echo "\n";
             break;
