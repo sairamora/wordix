@@ -273,7 +273,7 @@ do {
             $nPalabra = trim(fgets(STDIN));
             do {
                 if (is_numeric($nPalabra) && (int)($nPalabra) == $nPalabra) {
-                    //verifica si es un numero entero y en el caso de que no lo sea lo convierte??????????
+                    //verifica si es un numero y si es entero
                     $i = $nPalabra - 1;
                     //asigna el numero de indice
                     if ($i >= 0 && $i < count($arregloPalabras)) {
@@ -347,13 +347,14 @@ do {
             print_r($arregloPartidas);  //SACAR!!!!!!!!!!!
             break;
         case 3:
-            //VARIABLES
             echo "Ingrese un numero de partida \n";
             $nPartida = trim(fgets(STDIN));
             $parar = false;
             do {
-                if (is_numeric($nPartida) && (int)($nPartida) == $nPartida) {     //si es un n valido
-                    if ($nPartida > 0 && $nPartida <= count($arregloPartidas)) {    //si existe el n de partida
+                if (is_numeric($nPartida) && (int)($nPartida) == $nPartida) {
+                    //verifica si es un numero y si es entero
+                    if ($nPartida > 0 && $nPartida <= count($arregloPartidas)) {
+                        //verifica el indice pertenece al arreglo de palabras
                         mostrarPartida($nPartida, $arregloPartidas);
                         $parar = true;
                     } else {
@@ -368,20 +369,21 @@ do {
             echo "\n";
             break;
         case 4:
-            //VARIABLES
             $jugador = solicitarJugador();
             $retornoIndice = iPrimerPartida ($arregloPartidas, $jugador);
+            //recibe el indice de la primer partida ganada
             if ($retornoIndice >= 0) {
+                //verifica si el jugador gano
                 echo "Primer partida ganada: \n";
-                $muestraPartida = mostrarPartida ($retornoIndice + 1, $arregloPartidas);
+                mostrarPartida ($retornoIndice + 1, $arregloPartidas);
                 echo $muestraPartida;
             } else if ($retornoIndice == -1) {
+                //verifica si el jugador no gano
                 echo "El jugador " . $jugador . " no ganó ninguna partida \n";
             }
             echo "\n";
             break;
         case 5:
-            //VARIABLES
             $porcVictorias = 0;
             $jugador = solicitarJugador();
             $arregloResumenJug = resumenjugador($arregloPartidas, $jugador);
@@ -415,15 +417,15 @@ do {
                 $palabraN = leerPalabra5Letras();
                 $existe = false;
                 $i = 0;
-                while ($i < count($arregloPalabras) && !$existe) {
+                while ($i < count($arregloPalabras) && $existe == false) {
                     if($arregloPalabras[$i] == $palabraN) {
                         echo "La palabra ya existe en WORDIX. Ingrese otra. \n";
                         $existe = true;
                     }
                     $i++;
                 }
-            } while (!$existe);
-                $arregloPalabras = agregarPalabra($arregloPalabras,$palabraN);
+            } while ($existe == true);
+            $arregloPalabras = agregarPalabra($arregloPalabras,$palabraN);
             print_r($arregloPalabras);
             break;
         case 8:
