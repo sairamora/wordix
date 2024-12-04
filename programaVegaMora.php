@@ -125,8 +125,10 @@ function iPrimerPartida ($arrayPartidas, $nomJugador) {
    $retorno = -1;
    do {
        $partida = $arrayPartidas[$i];   
-       if ($partida["jugador"] == $nomJugador) {    //verifica que el jugador haya jugado
-           if ($partida["puntaje"] > 0) {           //verifica que el jugador haya ganado
+       if ($partida["jugador"] == $nomJugador) {
+           //verifica que el jugador haya jugado
+           if ($partida["puntaje"] > 0) {
+               //verifica que el jugador haya ganado
                $retorno = $i;
                $gano = true;    
            }
@@ -195,15 +197,21 @@ function solicitarJugador() {
     echo "Ingrese el nombre de un jugador \n";
     $jugador = trim(fgets(STDIN));
     do {
-        $nombreUsuario = str_replace(" ", "", $jugador); //si se ingresa un nombre con espacios, los borra
-        $caracterUno = substr($jugador,0,1);             //toma el primer caracter del nombre ingresado 
-        $esLetra = ctype_alpha($caracterUno);             //verifica si el primer caracter es una letra, si ($esLetra==true) sale del bucle
-        if ($esLetra==false) {                                        //si no es letra, solicita otro nombre y lo guarda
+        $nombreUsuario = str_replace(" ", "", $jugador);
+        //si se ingresa un nombre con espacios, elimina los espacion en blanco
+        $caracterUno = substr($jugador,0,1);
+        //toma el primer caracter del nombre ingresado 
+        $esLetra = ctype_alpha($caracterUno);
+        //verifica si el primer caracter es una letra, devuelve true-false
+        if ($esLetra==false) {
+            //si no es letra, solicita otro nombre y lo actualiza en la variable
             echo "El nombre no es valido, ingrese otro \n";
             $jugador = trim(fgets(STDIN));
         }
-    } while ($esLetra==false);                                        //no sale del bucle hasta que el nombre sea valido
-    $jugadorMinusculas = strtolower($nombreUsuario);                   //convierte el nombre a minusculas
+    } while ($esLetra==false);
+    //repite hasta que el nombre sea valido
+    $jugadorMinusculas = strtolower($nombreUsuario);
+    //convierte el nombre en letras minusculas
     return ($jugadorMinusculas);
 }
 
@@ -257,26 +265,33 @@ $parar = false;
 do {
     $opcionMenu = seleccionarOpcion();
     switch ($opcionMenu) {
+        //evalua el valor de opcion ingresado y ejecuta segun el caso
         case 1:
-            //VARIABLES
             $jugador = solicitarJugador();
             $parar = false;
             echo "Ingrese un numero de palabra \n"; 
             $nPalabra = trim(fgets(STDIN));
             do {
-                if (is_numeric($nPalabra) && (int)($nPalabra) == $nPalabra) {   //si es un n valido
+                if (is_numeric($nPalabra) && (int)($nPalabra) == $nPalabra) {
+                    //verifica si es un numero y si es entero
                     $i = $nPalabra - 1;
-                    if ($i >= 0 && $i < count($arregloPalabras)) {    //si es un n palabra q existe
+                    //asigna el numero de indice
+                    if ($i >= 0 && $i < count($arregloPalabras)) {
+                        //verifica el indice pertenece al arreglo de palabras
                         $palabra = $arregloPalabras[$i];
                         $usada = false;
                         foreach ($arregloPartidas as $partida) {
+                            //recorre el arreglo de partidas por las partidas
                             if($partida["jugador"] == $jugador) {
+                                //verifica que el jugador haya jugado
                                 if ($partida["palabraWordix"] == $palabra) {
+                                    //verifica que el jugador haya jugado con la palabra
                                     $usada = true;
                                 }
                             }
                         }
                         if ($usada == false) {
+                            //verifica si el jugador no jugo con la palabra para salir del bucle
                             $parar = true;
                         } else {
                             echo "El numero de palabra ya fue utilizado. Ingrese otro. \n";
@@ -292,46 +307,54 @@ do {
                 }
                 echo "\n";
             } while ($parar == false);
+            //repite hasta que se ingrese una palabra no jugada por el jugador
             $juegoCasoUno = jugarWordix($palabra, $jugador);
             $arregloPartidas[count($arregloPartidas)] = $juegoCasoUno;
-            print_r($arregloPartidas); //SACAR PRINT
+            //actualiza el arreglo de partidas con la partida jugada
+
+            print_r($arregloPartidas); //SACAR!!!!!!!!!
             break;
         case 2:
-            //PROBAR VARIAS VECES, CORREGIR ERROR - es xq se terminan las palabras NO usadas?
-            //VARIABLES
             $jugador = solicitarJugador();
             $parar = false;
             do {
                 $nRandom = rand(0, count($arregloPalabras) - 1);
-                if ($nRandom >= 0 && $nRandom < count($arregloPalabras)) {
+                //selecciona un indice random del arreglo de palabras
                     $palabraRandom = $arregloPalabras[$nRandom];
+                    //almacena la palabra ubicada en el indice
                     $usada = false;
                     foreach ($arregloPartidas as $partida) {
+                        //recorre el arreglo de partidas por las partidas
                         if ($partida["jugador"] == $jugador) {
+                            //verifica que el jugador haya jugado
                             if ($partida["palabraWordix"] == $palabraRandom) {
+                                //verifica que el jugador haya jugado con la palabra
                                 $usada = true;
                             }
                         }
                     }
                     if ($usada == false) {
+                        //verifica que el jugador no jugo con la palabra para salir del bucle
                         $parar = true;
-                        echo $palabraRandom . "\n";
+                        echo $palabraRandom . "\n"; //SACAR!!!!!!!!!!
                     }
-                }
             } while ($parar == false);
+            //repite hasta que obtenga una palabra no jugada por el jugador
             echo $palabraRandom . "\n";
             $juegoCasoDos = jugarWordix($palabraRandom, $jugador);
             $arregloPartidas[count($arregloPartidas)] = $juegoCasoDos;
-            print_r($arregloPartidas);
+            //actualiza el arreglo de partidas con la partida jugada
+            print_r($arregloPartidas);  //SACAR!!!!!!!!!!!
             break;
         case 3:
-            //VARIABLES
             echo "Ingrese un numero de partida \n";
             $nPartida = trim(fgets(STDIN));
             $parar = false;
             do {
-                if (is_numeric($nPartida) && (int)($nPartida) == $nPartida) {     //si es un n valido
-                    if ($nPartida > 0 && $nPartida <= count($arregloPartidas)) {    //si existe el n de partida
+                if (is_numeric($nPartida) && (int)($nPartida) == $nPartida) {
+                    //verifica si es un numero y si es entero
+                    if ($nPartida > 0 && $nPartida <= count($arregloPartidas)) {
+                        //verifica el indice pertenece al arreglo de palabras
                         mostrarPartida($nPartida, $arregloPartidas);
                         $parar = true;
                     } else {
@@ -346,24 +369,27 @@ do {
             echo "\n";
             break;
         case 4:
-            //VARIABLES
             $jugador = solicitarJugador();
             $retornoIndice = iPrimerPartida ($arregloPartidas, $jugador);
+            //recibe el indice de la primer partida ganada
             if ($retornoIndice >= 0) {
+                //verifica si el jugador gano
                 echo "Primer partida ganada: \n";
-                $muestraPartida = mostrarPartida ($retornoIndice + 1, $arregloPartidas);
+                mostrarPartida ($retornoIndice + 1, $arregloPartidas);
                 echo $muestraPartida;
             } else if ($retornoIndice == -1) {
+                //verifica si el jugador no gano
                 echo "El jugador " . $jugador . " no ganó ninguna partida \n";
             }
             echo "\n";
             break;
         case 5:
-            //VARIABLES
             $porcVictorias = 0;
             $jugador = solicitarJugador();
             $arregloResumenJug = resumenjugador($arregloPartidas, $jugador);
+            //recibe el resumen del jugador
             if ($arregloResumenJug["partidas"]) {
+                //verifica si el jugador jugo alguna partida (distinto de 0 o false)
                 $porcVictorias = ($arregloResumenJug["victorias"] / $arregloResumenJug["partidas"]) * 100;
                 echo "\n";
                 echo "**************************************** \n";
@@ -387,28 +413,35 @@ do {
             break;
         case 6:
             ordenarPartidas($arregloPartidas);
+            //ordena el arreglo partidas por jugador y palabra
             break;
         case 7:
-            $palabraN = leerPalabra5Letras();
-            $existe = false;
-            $i = 0;
-            while ($i < count($arregloPalabras) && $existe == false) {
-                $palabra = $arregloPalabras[$i];
-                if($palabra == $palabraN) {
-                    echo "La palabra ya existe en WORDIX. Ingrese otra. \n";
-                    $existe = true;
+            do {
+                $palabraN = $solicitarPalabra;
+                $existe = false;
+                $i = 0;
+                while ($i < count($arregloPalabras) && $existe == false) {
+                    //recorre el arreglo palabras mientras queden indices por verificar
+                    if($arregloPalabras[$i] == $palabraN) {
+                        //verifica que la palabra no exista en el arreglo palabra
+                        echo "La palabra ya existe en WORDIX. 1Ingrese otra. \n";
+                        $existe = true;
+                    }
+                    $i++;
                 }
-                $i++;
-            }
-            if ($existe == false) {
-                $arregloPalabras = agregarPalabra($arregloPalabras,$palabraN);
-            }
+            } while ($existe == true);
+            //repite hasta que la palabra no exista en todo el arreglo
+            $arregloPalabras = agregarPalabra($arregloPalabras,$palabraN);
+            //guarda la palabra en el arreglo
+            print_r($arregloPalabras);//SACAR!!
             break;
         case 8:
             echo "SALIDA \n";
+            //sale del menu de opciones wordix
             break;
         default:
-            echo "La opcion ingresada no es parte del menu. Ingrese un numero valido. \n";
+            echo "La opcion ingresada no es parte del menu. \n";
+            //no permite ingresar a una opcion si no existe en el menu
             break;
     }
 } while ($opcionMenu != 8);
