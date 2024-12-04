@@ -320,7 +320,6 @@ do {
             do {
                 $nRandom = rand(0, count($arregloPalabras) - 1);
                 //selecciona un indice random del arreglo de palabras
-                if ($nRandom >= 0 && $nRandom < count($arregloPalabras)) { //IF DE MAS????!!!!!!
                     $palabraRandom = $arregloPalabras[$nRandom];
                     //almacena la palabra ubicada en el indice
                     $usada = false;
@@ -339,7 +338,6 @@ do {
                         $parar = true;
                         echo $palabraRandom . "\n"; //SACAR!!!!!!!!!!
                     }
-                }
             } while ($parar == false);
             //repite hasta que obtenga una palabra no jugada por el jugador
             echo $palabraRandom . "\n";
@@ -413,20 +411,20 @@ do {
             ordenarPartidas($arregloPartidas);
             break;
         case 7:
-            $palabraN = leerPalabra5Letras();
-            $existe = false;
-            $i = 0;
-            while ($i < count($arregloPalabras) && $existe == false) {
-                $palabra = $arregloPalabras[$i];
-                if($palabra == $palabraN) {
-                    echo "La palabra ya existe en WORDIX. Ingrese otra. \n";
-                    $existe = true;
+            do {
+                $palabraN = leerPalabra5Letras();
+                $existe = false;
+                $i = 0;
+                while ($i < count($arregloPalabras) && !$existe) {
+                    if($arregloPalabras[$i] == $palabraN) {
+                        echo "La palabra ya existe en WORDIX. Ingrese otra. \n";
+                        $existe = true;
+                    }
+                    $i++;
                 }
-                $i++;
-            }
-            if ($existe == false) {
+            } while (!$existe);
                 $arregloPalabras = agregarPalabra($arregloPalabras,$palabraN);
-            }
+            print_r($arregloPalabras);
             break;
         case 8:
             echo "SALIDA \n";
