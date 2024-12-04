@@ -43,6 +43,7 @@ function cargarPartidas () {    //CAMBIAR segun la modificacion del punto 7
     $arrayPartidas[9] = ["palabraWordix" => "MELON", "jugador" => "pepe", "intentos" => 0, "puntaje" => 0];
     return ($arrayPartidas);
 }
+
 //PUNTO 3 (E3)
 /**
  * Muestra el menu de opciones y corrobora que la opcion elegida sea valida. Retorna el numero de la opcion elegida.
@@ -101,9 +102,8 @@ function mostrarPartida ($nPartida, $arrayPartidas) {
         echo "Debe ingresar un numero entero. \n";
     }   
 }
+
 //PUNTO 7 (E3)
-
-
 /**Función en que la entrada es la colección de palabras y una palabra nueva,
  * la función retorna la colección modificada al agregarse la palabra nueva
  * @param array $coleccionPalabras
@@ -198,15 +198,35 @@ function solicitarJugador() {
     echo "Ingrese el nombre de un jugador \n";
     $jugador = trim(fgets(STDIN));
     do {
-        $caracterUno = substr($jugador,0,1);
-        $esLetra = ctype_alpha($caracterUno);                   //si es letra ($esLetra==true), sale del bucle
+        $nombreUsuario = str_replace(" ", "", $jugador); //si se ingresa un nombre con espacios, los borra
+        $caracterUno = substr($jugador,0,1);             //toma el primer caracter del nombre ingresado 
+        $esLetra = ctype_alpha($caracterUno);             //verifica si el primer caracter es una letra, si ($esLetra==true) sale del bucle
         if ($esLetra==false) {                                        //si no es letra, solicita otro nombre y lo guarda
             echo "El nombre no es valido, ingrese otro \n";
             $jugador = trim(fgets(STDIN));
         }
     } while ($esLetra==false);                                        //no sale del bucle hasta que el nombre sea valido
-    $jugadorMinusculas = strtolower($jugador);                   //convierte el nombre a minusculas
+    $jugadorMinusculas = strtolower($nombreUsuario);                   //convierte el nombre a minusculas
     return ($jugadorMinusculas);
+}
+
+//FUNCION 11
+/**
+ * A
+ */
+function ordenarPartidas($arregloPartidas) {
+    uasort($arregloPartidas, function ($a, $b) {
+        $compararJugador = $a["jugador"] <=> $b["jugador"]; //operador <=> (teoria: < = -1, == = 0, > = 1)
+        if ($compararJugador == 0) {
+            //empate en jugadores
+            return ($a["palabraWordix"] <=> $b["palabraWordix"]);   // empate se mantiene el arreglo
+            //retorno secundario del uasort
+        }
+        return ($compararJugador);
+        //retorno inicial del uasort
+    });
+    //termina el uasort
+    print_r($arregloPartidas);
 }
 
 /* ****COMPLETAR***** */
@@ -237,40 +257,51 @@ do {
         case 1:
             //VARIABLES
             $jugador = solicitarJugador();
+            $parar = false;
+            echo "Ingrese un numero de palabra \n"; 
+            $nPalabra = trim(fgets(STDIN));
             do {
-                echo "Ingrese un numero de palabra \n"; 
-                $nPalabra = trim(fgets(STDIN)); 
-                if ($nPalabra >= 0 && $nPalabra < count($arregloPalabras)) {
-                    $palabra = $arregloPalabras[$nPalabra]; 
-                    $usada = false;
-                    foreach ($arregloPartidas as $partida) {
-                        if ($partida["palabraWordix"] == $palabra) {
-                            $usada = true;
-                        }
-                    }
-                    if (!$usada) {
-                        foreach ($arregloUsadas as $palabraUsada) {
-                            if ($palabraUsada == $nPalabra) {
-                                $usada = true;
+                if (is_numeric($nPalabra) && (int)($nPalabra) == $nPalabra) {   //si es un n valido
+                    $i = $nPalabra - 1;
+                    if ($i >= 0 && $i < count($arregloPalabras)) {    //si es un n palabra q existe
+                        $palabra = $arregloPalabras[$i];
+                        $usada = false;
+                        foreach ($arregloPartidas as $partida) {
+                            if($partida["jugador"] == $jugador) {
+                                $arregloUsadas["jugador"] = [];
+                                if ($partida["palabraWordix"] == $palabra) {
+                                    $usada = true;
+                                }
                             }
                         }
-                    }
-                    if (!$usada) {
-                        $arregloUsadas[] = $nPalabra;
-                        $parar = true;
+                        if ($usada == false) {
+                            foreach ($arregloUsadas["jugador"] as $palabraUsada) {
+                                if ($palabraUsada == $i) {
+                                    $usada = true;
+                                }
+                            } print_r($arregloUsadas);
+                        }
+                        if ($usada == false) {
+                            $arregloUsadas["jugador"][] = $i;
+                            print_r($arregloUsadas);        //SACAR PRINT
+                            $parar = true;
+                        } else {
+                            echo "El numero de palabra ya fue utilizado. Ingrese otro. \n";
+                            $nPalabra = trim(fgets(STDIN));
+                        }
                     } else {
-                        echo "El numero de palabra ya fue utilizado. Ingrese otro. \n";
+                        echo "El numero ingresado no pertenece a una palabra. Ingrese otro. \n";
                         $nPalabra = trim(fgets(STDIN));
                     }
                 } else {
-                    echo "Ingrese un numero valido. \n";
+                    echo "El numero ingresado no es valido. Ingrese otro. \n";
                     $nPalabra = trim(fgets(STDIN));
                 }
                 echo "\n";
-            } while (count($arregloUsadas) < count($arregloPalabras) && $parar == false);
+            } while ($parar == false);
             $juegoCasoUno = jugarWordix($palabra, $jugador);
             $arregloPartidas[count($arregloPartidas)] = $juegoCasoUno;
-            print_r($arregloPartidas);
+            print_r($arregloUsadas); //SACAR PRINT
             break;
         case 2:
             //PROBAR VARIAS VECES, CORREGIR ERROR - es xq se terminan las palabras NO usadas?
@@ -304,13 +335,24 @@ do {
             print_r($arregloPartidas);
             break;
         case 3:
+            //VARIABLES
             echo "Ingrese un numero de partida \n";
             $nPartida = trim(fgets(STDIN));
-            if ($nPartida >= 0 && $nPartida < count($arregloPartidas)) {
-                mostrarPartida($nPartida, $arregloPartidas);
-            } else {
-                echo "El numero de partida no es valido.";
-            }
+            $parar = false;
+            do {
+                if (is_numeric($nPartida) && (int)($nPartida) == $nPartida) {     //si es un n valido
+                    if ($nPartida >= 0 && $nPartida < count($arregloPartidas)) {    //si existe el n de partida
+                        mostrarPartida($nPartida, $arregloPartidas);
+                        $parar = true;
+                    } else {
+                        echo "El numero ingresado no pertenece a una partida. Ingrese otro. \n";  
+                        $nPartida = trim(fgets(STDIN));
+                    }
+                } else {
+                    echo "Debe ingresar un numero valido. \n";
+                    $nPartida = trim(fgets(STDIN));
+                }
+            } while ($parar==false);
             echo "\n";
             break;
         case 4:
@@ -318,8 +360,8 @@ do {
             $jugador = solicitarJugador();
             $arregloPartidas = cargarPartidas();
             $retornoIndice = iPrimerPartida ($arregloPartidas, $jugador);
-
             if ($retornoIndice >= 0) {
+                echo "Primer partida ganada: \n";
                 mostrarPartida ($retornoIndice + 1, $arregloPartidas);
             } else if ($retornoIndice == -1) {
                 echo "El jugador " . $jugador . " no ganó ninguna partida \n";
@@ -355,7 +397,8 @@ do {
             }
             break;
         case 6:
-            //funcion predefinida uasort y print_r
+            //VARIABLES
+            ordenarPartidas($arregloPartidas);
             break;
         case 7:
             $palabraN = leerPalabra5Letras();

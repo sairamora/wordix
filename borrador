@@ -66,8 +66,6 @@ function seleccionarOpcion () {
     return ($opcion);
 }
 
-
-
 //PUNTO 6 (E3) LISTA
 /**
  * Esta funcion recibe por parametro el numero de palabra y el arreglo de partidas.............
@@ -96,8 +94,6 @@ function mostrarPartida ($nPartida, $arrayPartidas) {
     }   
 }
 //PUNTO 7 (E3)
-
-
 /**Función en que la entrada es la colección de palabras y una palabra nueva,
  * la función retorna la colección modificada al agregarse la palabra nueva
  * @param array $coleccionPalabras
