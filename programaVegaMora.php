@@ -29,9 +29,10 @@ function cargarColeccionPalabras() {
 
 //FUNCION 2(E3)
 /**
- * A
+ * Esta funcion carga las partidas del usuario
+ * @return array
  */
-function cargarPartidas () {    //CAMBIAR segun la modificacion del punto 7
+function cargarPartidas () {  
     $arrayPartidas = [];
     //ejemplos E2 b)
     $arrayPartidas[0] = ["palabraWordix" => "QUESO", "jugador" => "majo", "intentos" => 0, "puntaje" => 0];
@@ -81,7 +82,10 @@ function seleccionarOpcion () {
 
 //PUNTO 6 (E3) LISTA
 /**
- * Esta funcion recibe por parametro el numero de palabra y el arreglo de partidas.............
+ * Esta funcion recibe por parametro el numero de partida y el arreglo de partidas
+ *  y muestra la partida de esa ubicacion (numero)
+ * @param int $nPartida
+ * @param array $arrayPartidas
  */
 function mostrarPartida ($nPartida, $arrayPartidas) {
     $indice = $nPartida - 1;
@@ -102,10 +106,12 @@ function mostrarPartida ($nPartida, $arrayPartidas) {
 }
 
 //PUNTO 7 (E3)
-/**Función en que la entrada es la colección de palabras y una palabra nueva,
+/**
+ * Función en que la entrada es la colección de palabras y una palabra nueva,
  * la función retorna la colección modificada al agregarse la palabra nueva
  * @param array $coleccionPalabras
- * @param STRING $palabraNueva
+ * @param string $palabraNueva
+ * @return array
  */
 function agregarPalabra($coleccionPalabras, $palabraNueva) {
     $coleccionPalabras[count($coleccionPalabras)] = $palabraNueva;
@@ -115,9 +121,12 @@ function agregarPalabra($coleccionPalabras, $palabraNueva) {
 
 //PUNTO 8 (E3)
 /**
- * poner q hace!!!!!
+ * Esta funcion recibe por parametro una colección de partidas y el nombre de un jugador, 
+ * y retorna el índice de la primer partida ganada por dicho jugador.
+ *  Si el jugador no gano ninguna partida, la función retorna el valor -1
 * @param array $arrayPartidas
-* @param string $nombJugador
+* @param string $nomJugador
+* @return int
 */
 function iPrimerPartida ($arrayPartidas, $nomJugador) {
    $gano = false;
@@ -140,13 +149,15 @@ function iPrimerPartida ($arrayPartidas, $nomJugador) {
 
 //PUNTO 9 (E3)
 /**
- * poner q hace
+ * Función que dada la colección de partidas y el nombre de un jugador, retorna el arreglo de resumen del jugador
+ * @param array $arrayPartidas
+ * @param string $nomJugador
+ * @return array
  */
 function resumenJugador ($arrayPartidas, $nomJugador) {
     $arrayResumenJug = [];
     $contPartidas = 0;
     $contVictorias = 0;
-    //revisar
     $contIntentoUno = 0;
     $contIntentoDos = 0;
     $contIntentoTres = 0;
@@ -191,7 +202,9 @@ function resumenJugador ($arrayPartidas, $nomJugador) {
 
 //PUNTO 10 (E3)
 /**
- * a
+ * Esta funcion solicita el nombre del jugador, corrobora que sea valido. Si no lo es, lo pide hasta que lo sea, y lo retorna. 
+ * En caso de que el nombre este en mayusculas lo convierte a minusculas (lo devuelve en minusculas)
+ * @return string
  */
 function solicitarJugador() {
     echo "Ingrese el nombre de un jugador \n";
@@ -217,7 +230,9 @@ function solicitarJugador() {
 
 //FUNCION 11
 /**
- * A
+ * Esta funcion recibe por parametro una colección de partidas, la ordena alfabeticamente
+ * segun jugador y palabra y muestra la colección de partidas ordenada
+ * @param array $arregloPartidas
  */
 function ordenarPartidas($arregloPartidas) {
     uasort($arregloPartidas, function ($a, $b) {
@@ -234,13 +249,12 @@ function ordenarPartidas($arregloPartidas) {
     print_r($arregloPartidas);
 }
 
-/* ****COMPLETAR***** */
 
 /**************************************/
 /*********** PROGRAMA PRINCIPAL *******/
 /**************************************/
 
-//este programa...........
+//Este programa muestra el menu de opciones de wordix y funciona segun la opcion ingresada
 
 //Declaración de variables:
 /**INT $opcionMenu, $nPalabra, $i, $nRamdom, $retornoIndice
@@ -309,10 +323,8 @@ do {
             } while ($parar == false);
             //repite hasta que se ingrese una palabra no jugada por el jugador
             $juegoCasoUno = jugarWordix($palabra, $jugador);
-            $arregloPartidas[count($arregloPartidas)] = $juegoCasoUno;
             //actualiza el arreglo de partidas con la partida jugada
-
-            print_r($arregloPartidas); //SACAR!!!!!!!!!
+            $arregloPartidas[count($arregloPartidas)] = $juegoCasoUno;
             break;
         case 2:
             $jugador = solicitarJugador();
@@ -336,15 +348,11 @@ do {
                     if ($usada == false) {
                         //verifica que el jugador no jugo con la palabra para salir del bucle
                         $parar = true;
-                        echo $palabraRandom . "\n"; //SACAR!!!!!!!!!!
                     }
             } while ($parar == false);
             //repite hasta que obtenga una palabra no jugada por el jugador
-            echo $palabraRandom . "\n";
             $juegoCasoDos = jugarWordix($palabraRandom, $jugador);
             $arregloPartidas[count($arregloPartidas)] = $juegoCasoDos;
-            //actualiza el arreglo de partidas con la partida jugada
-            print_r($arregloPartidas);  //SACAR!!!!!!!!!!!
             break;
         case 3:
             echo "Ingrese un numero de partida \n";
@@ -376,7 +384,6 @@ do {
                 //verifica si el jugador gano
                 echo "Primer partida ganada: \n";
                 mostrarPartida ($retornoIndice + 1, $arregloPartidas);
-                echo $muestraPartida;
             } else if ($retornoIndice == -1) {
                 //verifica si el jugador no gano
                 echo "El jugador " . $jugador . " no ganó ninguna partida \n";
@@ -417,7 +424,7 @@ do {
             break;
         case 7:
             do {
-                $palabraN = $solicitarPalabra;
+                $palabraN = leerPalabra5Letras();
                 $existe = false;
                 $i = 0;
                 while ($i < count($arregloPalabras) && $existe == false) {
@@ -433,15 +440,10 @@ do {
             //repite hasta que la palabra no exista en todo el arreglo
             $arregloPalabras = agregarPalabra($arregloPalabras,$palabraN);
             //guarda la palabra en el arreglo
-            print_r($arregloPalabras);//SACAR!!
             break;
         case 8:
             echo "SALIDA \n";
             //sale del menu de opciones wordix
-            break;
-        default:
-            echo "La opcion ingresada no es parte del menu. \n";
-            //no permite ingresar a una opcion si no existe en el menu
             break;
     }
 } while ($opcionMenu != 8);
