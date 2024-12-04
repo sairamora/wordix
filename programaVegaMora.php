@@ -387,7 +387,9 @@ do {
             $porcVictorias = 0;
             $jugador = solicitarJugador();
             $arregloResumenJug = resumenjugador($arregloPartidas, $jugador);
+            //recibe el resumen del jugador
             if ($arregloResumenJug["partidas"]) {
+                //verifica si el jugador jugo alguna partida (distinto de 0 o false)
                 $porcVictorias = ($arregloResumenJug["victorias"] / $arregloResumenJug["partidas"]) * 100;
                 echo "\n";
                 echo "**************************************** \n";
@@ -411,28 +413,35 @@ do {
             break;
         case 6:
             ordenarPartidas($arregloPartidas);
+            //ordena el arreglo partidas por jugador y palabra
             break;
         case 7:
             do {
-                $palabraN = leerPalabra5Letras();
+                $palabraN = $solicitarPalabra;
                 $existe = false;
                 $i = 0;
                 while ($i < count($arregloPalabras) && $existe == false) {
+                    //recorre el arreglo palabras mientras queden indices por verificar
                     if($arregloPalabras[$i] == $palabraN) {
-                        echo "La palabra ya existe en WORDIX. Ingrese otra. \n";
+                        //verifica que la palabra no exista en el arreglo palabra
+                        echo "La palabra ya existe en WORDIX. 1Ingrese otra. \n";
                         $existe = true;
                     }
                     $i++;
                 }
             } while ($existe == true);
+            //repite hasta que la palabra no exista en todo el arreglo
             $arregloPalabras = agregarPalabra($arregloPalabras,$palabraN);
-            print_r($arregloPalabras);
+            //guarda la palabra en el arreglo
+            print_r($arregloPalabras);//SACAR!!
             break;
         case 8:
             echo "SALIDA \n";
+            //sale del menu de opciones wordix
             break;
         default:
-            echo "La opcion ingresada no es parte del menu. Ingrese un numero valido. \n";
+            echo "La opcion ingresada no es parte del menu. \n";
+            //no permite ingresar a una opcion si no existe en el menu
             break;
     }
 } while ($opcionMenu != 8);
