@@ -282,7 +282,7 @@ do {
         //evalua el valor de opcion ingresado y ejecuta segun el caso
         case 1:
             $jugador = solicitarJugador();
-            $parar = false;
+           $parar = false;
             echo "Ingrese un numero de palabra \n"; 
             $nPalabra = trim(fgets(STDIN));
             do {
@@ -291,18 +291,21 @@ do {
                     $i = $nPalabra - 1;
                     //asigna el numero de indice
                     if ($i >= 0 && $i < count($arregloPalabras)) {
-                        //verifica el indice pertenece al arreglo de palabras
                         $palabra = $arregloPalabras[$i];
+                        //guardar la palabra como string
                         $usada = false;
-                        foreach ($arregloPartidas as $partida) {
-                            //recorre el arreglo de partidas por las partidas
-                            if($partida["jugador"] == $jugador) {
-                                //verifica que el jugador haya jugado
+                        //rrecorrer el arreglo de partidas
+                        $j = 0;
+                        while ($j < count($arregloPartidas)) {
+                            $partida = $arregloPartidas[$j];
+                            if ($partida["jugador"] == $jugador) {
+                            //verificar si el jugador haya jugado
                                 if ($partida["palabraWordix"] == $palabra) {
-                                    //verifica que el jugador haya jugado con la palabra
+                                    //verificar si el jugador haya jugado con la palabra
                                     $usada = true;
                                 }
                             }
+                            $j++;
                         }
                         if ($usada == false) {
                             //verifica si el jugador no jugo con la palabra para salir del bucle
@@ -395,7 +398,7 @@ do {
             $jugador = solicitarJugador();
             $arregloResumenJug = resumenjugador($arregloPartidas, $jugador);
             //recibe el resumen del jugador
-            if ($arregloResumenJug["partidas"]) {
+            if ($arregloResumenJug["partidas"]>0) {
                 //verifica si el jugador jugo alguna partida (distinto de 0 o false)
                 $porcVictorias = ($arregloResumenJug["victorias"] / $arregloResumenJug["partidas"]) * 100;
                 echo "\n";
