@@ -220,88 +220,96 @@ function solicitarJugador() {
 $arregloPalabras = cargarColeccionPalabras();
 $arregloPartidas = cargarPartidas();
 $arregloUsadas = [];
+$partidas = [];
 do {
     $opcionMenu = seleccionarOpcion();
     switch ($opcionMenu) {
         case 1:
-            //VARIABLES
-            $jugador = solicitarJugador();
-            $parar = false;
-            echo "Ingrese un numero de palabra \n"; 
-            $nPalabra = trim(fgets(STDIN));
-            do {
-                if (is_numeric($nPalabra) && (int)($nPalabra) == $nPalabra) {   //si es un n valido
-                    $i = $nPalabra - 1;
-                    if ($i >= 0 && $i < count($arregloPalabras)) {    //si es un n palabra q existe
-                        $palabra = $arregloPalabras[$i];
-                        $usada = false;
-                        foreach ($arregloPartidas as $partida) {
-                            if($partida["jugador"] == $jugador) {
-                                $arregloUsadas["jugador"] = [];
-                                if ($partida["palabraWordix"] == $palabra) {
-                                    $usada = true;
-                                }
-                            }
-                        }
-                        if ($usada == false) {
-                            foreach ($arregloUsadas["jugador"] as $palabraUsada) {
-                                if ($palabraUsada == $i) {
-                                    $usada = true;
-                                }
-                            } print_r($arregloUsadas);
-                        }
-                        if ($usada == false) {
-                            $arregloUsadas["jugador"][] = $i;
-                            print_r($arregloUsadas);
-                            $parar = true;
-                        } else {
-                            echo "El numero de palabra ya fue utilizado. Ingrese otro. \n";
-                            $nPalabra = trim(fgets(STDIN));
-                        }
-                    } else {
-                        echo "El numero ingresado no pertenece a una palabra. Ingrese otro. \n";
-                        $nPalabra = trim(fgets(STDIN));
-                    }
-                } else {
-                    echo "El numero ingresado no es valido. Ingrese otro. \n";
-                    $nPalabra = trim(fgets(STDIN));
-                }
-                echo "\n";
-            } while ($parar == false);
-            $juegoCasoUno = jugarWordix($palabra, $jugador);
-            $arregloPartidas[count($arregloPartidas)] = $juegoCasoUno;
-            print_r($arregloUsadas);
+           //VARIABLES
+           $jugador = solicitarJugador();
+           $parar = false;
+           echo "Ingrese un numero de palabra \n"; 
+           $nPalabra = trim(fgets(STDIN));
+           do {
+               if (is_numeric($nPalabra) && (int)($nPalabra) == $nPalabra) {   //si es un n valido
+                   $i = $nPalabra - 1;
+                   if ($i >= 0 && $i < count($arregloPalabras)) {    //si es un n palabra q existe
+                       $palabra = $arregloPalabras[$i];
+                       $usada = false;
+                       foreach ($arregloPartidas as $partida) {
+                           if($partida["jugador"] == $jugador) {
+                               if ($partida["palabraWordix"] == $palabra) {
+                                   $usada = true;
+                               }
+                           } else {
+                                $arregloUsadas[$jugador] = $partidas;
+                           }
+                       }
+                       if ($usada == false) {
+                           foreach ($arregloUsadas[$jugador] as $palabraUsada) {
+                               if ($palabraUsada == $i) {
+                                   $usada = true;
+                               }
+                           } print_r($arregloUsadas);
+                       }
+                       if ($usada == false) {
+                            $arregloUsadas[$jugador][] = $i;
+                           print_r($arregloUsadas);        //SACAR PRINT
+                           $parar = true;
+                       } else {
+                           echo "El numero de palabra ya fue utilizado. Ingrese otro. \n";
+                           $nPalabra = trim(fgets(STDIN));
+                       }
+                   } else {
+                       echo "El numero ingresado no pertenece a una palabra. Ingrese otro. \n";
+                       $nPalabra = trim(fgets(STDIN));
+                   }
+               } else {
+                   echo "El numero ingresado no es valido. Ingrese otro. \n";
+                   $nPalabra = trim(fgets(STDIN));
+               }
+               echo "\n";
+           } while (count($arregloUsadas[$jugador]) > count($arregloPalabras) && $parar == false);
+           $juegoCasoUno = jugarWordix($palabra, $jugador);
+           $arregloPartidas[count($arregloPartidas)] = $juegoCasoUno;
+           print_r($arregloUsadas); //SACAR PRINT
             break;
         case 2:
             //PROBAR VARIAS VECES, CORREGIR ERROR - es xq se terminan las palabras NO usadas?
             //VARIABLES
             $jugador = solicitarJugador();
+            $parar = false;
             do {
                 $nRandom = rand(0, count($arregloPalabras) - 1);
                 if ($nRandom >= 0 && $nRandom < count($arregloPalabras)) {
                     $palabraRandom = $arregloPalabras[$nRandom];
+                    echo $palabraRandom . "\n";
                     $usada = false;
                     foreach ($arregloPartidas as $partida) {
-                        if ($partida["palabraWordix"] == $palabraRandom) {
-                            $usada = true;
-                        }
-                    }
-                    if (!$usada) {
-                        foreach ($arregloUsadas as $palabraUsada) {
-                            if ($palabraUsada == $nRandom) {
+                        if ($partida["jugador"] == $jugador) {
+                            $arregloUsadas["jugador"] = [];
+                            if ($partida["palabraWordix"] == $palabraRandom) {
                                 $usada = true;
                             }
                         }
+                        
                     }
-                    if (!$usada) {
-                        $arregloUsadas[] = $nRandom;
+                    if ($usada == false) {
+                        foreach ($arregloUsadas["jugador"] as $palabraUsada) {
+                            if ($palabraUsada == $nRandom) {
+                                $usada = true;
+                            }
+                        } print_r($arregloUsadas);
+                    }
+                    if ($usada == false) {
+                        $arregloUsadas["jugador"][] = $nRandom;
                         $parar = true;
                     }
                 }
-            } while (count($arregloUsadas) < count($arregloPalabras) && $parar == false);
+            } while (count($arregloUsadas["jugador"]) < count($arregloPalabras) && $parar == false);
             $juegoCasoDos = jugarWordix($palabraRandom, $jugador);
             $arregloPartidas[count($arregloPartidas)] = $juegoCasoDos;
-            print_r($arregloPartidas);
+            print_r($arregloUsadas);
             break;
         case 3:         //SIN ERRORES (si dios quiere)
             //VARIABLES
