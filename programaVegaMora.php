@@ -294,9 +294,9 @@ do {
                         $palabra = $arregloPalabras[$i];
                         //guardar la palabra como string
                         $usada = false;
-                        //rrecorrer el arreglo de partidas
+                        //recorrer el arreglo de partidas
                         $j = 0;
-                        while ($j < count($arregloPartidas)) {
+                        while ($j < count($arregloPartidas) && $usada == false) {
                             $partida = $arregloPartidas[$j];
                             if ($partida["jugador"] == $jugador) {
                             //verificar si el jugador haya jugado
@@ -329,34 +329,47 @@ do {
             //actualiza el arreglo de partidas con la partida jugada
             $arregloPartidas[count($arregloPartidas)] = $juegoCasoUno;
             break;
-        case 2:
-            $jugador = solicitarJugador();
-            $parar = false;
-            do {
-                $nRandom = rand(0, count($arregloPalabras) - 1);
-                //selecciona un indice random del arreglo de palabras
-                    $palabraRandom = $arregloPalabras[$nRandom];
-                    //almacena la palabra ubicada en el indice
-                    $usada = false;
-                    foreach ($arregloPartidas as $partida) {
-                        //recorre el arreglo de partidas por las partidas
-                        if ($partida["jugador"] == $jugador) {
-                            //verifica que el jugador haya jugado
-                            if ($partida["palabraWordix"] == $palabraRandom) {
-                                //verifica que el jugador haya jugado con la palabra
-                                $usada = true;
+            case 2:
+                $jugador = solicitarJugador();
+                $parar = false;
+                $contPalabrasUsadas = 0;
+                do {
+                    $nRandom = rand(0, count($arregloPalabras) - 1);
+                    //selecciona un indice random del arreglo de palabras
+                        $palabraRandom = $arregloPalabras[$nRandom];
+                        //almacena la palabra ubicada en el indice
+                        $usada = false;
+                        //recorrer el arreglo de partidas buscando que la palabra NO se haya usado antes p salir del bucle
+                        $j = 0;
+                        while ($j < count($arregloPartidas) && $usada == false) {
+                            $partida = $arregloPartidas[$j];
+                            if ($partida["jugador"] == $jugador) {
+                                //verifica que el jugador haya jugado
+                                if ($partida["palabraWordix"] == $palabraRandom) {
+                                    //verifica que el jugador haya jugado con la palabra
+                                    $usada = true; // si el jugador JUGO con la palabra
+                                }
                             }
+                            $j++;
                         }
-                    }
-                    if ($usada == false) {
-                        //verifica que el jugador no jugo con la palabra para salir del bucle
-                        $parar = true;
-                    }
-            } while ($parar == false);
-            //repite hasta que obtenga una palabra no jugada por el jugador
-            $juegoCasoDos = jugarWordix($palabraRandom, $jugador);
-            $arregloPartidas[count($arregloPartidas)] = $juegoCasoDos;
-            break;
+                        // Incrementar el contador de palabras usadas
+                        $contPalabrasUsadas++;
+
+                        // Si ya se intentaron todas las palabras disponibles, salir del bucle
+                        if ($contPalabrasUsadas >= count($arregloPalabras)) {
+                            echo "No quedan más palabras disponibles para el jugador.\n";
+                            $parar = true;
+                        } else if ($usada == false) {
+                            //si jugador no jugo con la palabra, salir del bucle
+                            $parar = true;
+                        }
+                } while ($parar == false);
+                //repite hasta que obtenga una palabra no jugada por el jugador
+                if ($contPalabrasUsadas < count($arregloPalabras)) {
+                    $juegoCasoDos = jugarWordix($palabraRandom, $jugador);
+                    $arregloPartidas[count($arregloPartidas)] = $juegoCasoDos;
+                }
+                break;
         case 3:
             echo "Ingrese un numero de partida \n";
             $nPartida = trim(fgets(STDIN));
