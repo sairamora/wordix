@@ -296,7 +296,7 @@ do {
                         $usada = false;
                         //recorrer el arreglo de partidas
                         $j = 0;
-                        while ($j < count($arregloPartidas) && $usada == false) {
+                        while ($j < count($arregloPartidas) && $usada == false) { //SE CAMBIO TANTO EN EL CASO 1 COMO EN EL 2, UN RECORRIDO EXHAUSTIVO (FOREACH) POR UNO PARCIAL (WHILE)
                             $partida = $arregloPartidas[$j];
                             if ($partida["jugador"] == $jugador) {
                             //verificar si el jugador haya jugado
@@ -341,7 +341,7 @@ do {
                         $usada = false;
                         //recorrer el arreglo de partidas buscando que la palabra NO se haya usado antes p salir del bucle
                         $j = 0;
-                        while ($j < count($arregloPartidas) && $usada == false) {
+                        while ($j < count($arregloPartidas) && $usada == false) { //SE CAMBIO EL RECORRIDO FOREACH EXHAUSTIVO POR UNO PARCIAL WHILE
                             $partida = $arregloPartidas[$j];
                             if ($partida["jugador"] == $jugador) {
                                 //verifica que el jugador haya jugado
